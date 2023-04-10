@@ -1,6 +1,8 @@
 <?php if( get_plugin_options('contact_plugin_active') ):?>
 
 
+
+
 <div id="form_success" style="background-color:green; color:#fff;"></div>
 <div id="form_error" style="background-color:red; color:#fff;"></div>
 
@@ -26,6 +28,30 @@
       <label>Email</label><br />
       <input type="text" name="email"><br />
 
+      <label for="asesor">Asesor</label>
+      <select name="asesor">
+      <?php 
+            $asesores = get_plugin_options('cn_plugin_asesores');
+            
+            foreach($asesores as $asesor) { ?>
+                  <option value="<?php echo $asesor["asesor_nombre"] ?>"><?php echo $asesor["asesor_nombre"] ?></option>
+            <?php }
+            // array(2) { 
+            //       [0]=> array(3) { 
+            //             ["_type"]=> string(1) "_" 
+            //             ["asesor_nombre"]=> string(6) "Nahuel" 
+            //             ["asesor_email"]=> string(16) "nahuel@email.com" 
+            //       } 
+            //       [1]=> array(3) { 
+            //             ["_type"]=> string(1) "_" 
+            //             ["asesor_nombre"]=> string(6) "carlos" 
+            //             ["asesor_email"]=> string(16) "carlos@gmail.com" 
+            //       } 
+            // }
+
+            
+      ?>
+      </select><br />
 
 
       
@@ -71,44 +97,35 @@
 
 <script>
 
-      jQuery(document).ready(function($){
+document.addEventListener("DOMContentLoaded", function() {
+  var form = document.querySelector("#enquiry_form");
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.querySelector("#form_error").style.display = "none";
+    var formData = new FormData(form);
+    fetch("<?php echo get_rest_url(null, 'v1/contact-form/submit');?>", {
+      method: "POST",
+      body: formData
+    })
+    .then(function(response) {
+      if (response.ok) {
+        form.style.display = "none";
+        return response.text();
+      } else {
+        throw new Error("There was an error submitting");
+      }
+    })
+    .then(function(text) {
+      document.querySelector("#form_success").innerHTML = text;
+      document.querySelector("#form_success").style.display = "block";
+    })
+    .catch(function(error) {
+      document.querySelector("#form_error").innerHTML = error.message;
+      document.querySelector("#form_error").style.display = "block";
+    });
+  });
+});
 
-
-            $("#enquiry_form").submit( function(event){
-
-                  event.preventDefault();
-
-                  $("#form_error").hide();
-
-                  var form = $(this);
-
-                  $.ajax({
-
-
-                        type:"POST",
-                        url: "<?php echo get_rest_url(null, 'v1/contact-form/submit');?>",
-                        data: form.serialize(),
-                        success:function(res){
-
-                              form.hide();
-
-                              $("#form_success").html(res).fadeIn();
-
-
-                        },
-                        error: function(){
-
-                              $("#form_error").html("There was an error submitting").fadeIn();
-                        }
-
-
-                  })
-
-
-            });
-
-
-      });
 
 </script>
 

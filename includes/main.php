@@ -4,6 +4,8 @@ if (!defined('ABSPATH')) {
       die('You cannot be here');
 }
 
+add_action('wp_enqueue_scripts', 'load_jquery');
+
 add_shortcode('calculadora-nutricional', 'show_contact_form');
 
 add_action('rest_api_init', 'create_rest_endpoint');
@@ -17,8 +19,6 @@ add_filter('manage_submission_posts_columns', 'custom_submission_columns'); // a
 add_action('manage_submission_posts_custom_column', 'fill_submission_columns', 10, 2);
 
 add_action('admin_init', 'setup_search');
-
-add_action('wp_enqueue_scripts', 'load_jquery');
 
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
@@ -261,15 +261,24 @@ function create_rest_endpoint() {
 
 
 function handle_enquiry($data) {
+      
+      
+      /////////////////
+      // SATINIZATION OF DATA
+      /////////////////
+
+      
       // Handle the form data that is posted
 
       // Get all parameters from form
       $params = $data->get_params();
-
+    
       // Set fields from the form
       $field_name = sanitize_text_field($params['name']);
       $field_email = sanitize_email($params['email']);
       
+      $field_asesor = sanitize_text_field($params['asesor']);
+
       $field_sexo = sanitize_text_field($params['sexo']);
       $field_edad = intval(sanitize_text_field($params['edad']));
       $field_altura = intval(sanitize_text_field($params['altura']));
@@ -282,7 +291,9 @@ function handle_enquiry($data) {
 
       $field_message = sanitize_textarea_field($params['message']);
 
-      // CALCULOS
+      /////////////////
+      // CALCULATIONS
+      /////////////////
 
       $field_IMC = round($field_peso / pow(0.01 * $field_altura,2),2);
       
@@ -358,16 +369,31 @@ function handle_enquiry($data) {
       unset($params['_wpnonce']);
       unset($params['_wp_http_referer']);
 
-      // Send the email message
+      /////////////////
+      // EMAIL
+      /////////////////
+
       $headers = [];
 
       $admin_email = get_bloginfo('admin_email');
       $admin_name = get_bloginfo('name');
 
       // Set recipient email
-      $recipient_email = get_plugin_options('contact_plugin_recipients');
+      // get all asesores array
+      $all_asesores = get_plugin_options('cn_plugin_asesores');
 
-      if (!$recipient_email) {
+      // filter only the selected asesor
+      $selected_asesor = array_filter($all_asesores,
+      function($all_asesores) {
+            return $all_asesores == $field_asesor;
+      });
+      
+      // get the selected asesor email
+      $recipient_email = $selected_asesor["asesor_email"];
+
+      var_dump($recipient_email);
+
+      if ($recipient_email) {
             // Make all lower case and trim out white space
             $recipient_email = strtolower(trim($recipient_email));
       } else {
@@ -437,6 +463,8 @@ function handle_enquiry($data) {
                                     "<li>proteina diaria: " . $field_proteina_diaria  . "</li>" .
                                     "<li>Actividad Física: " . $field_actividad_fisica . "</li>" .
                                     "<li>Message: " . $field_message . "</li>" .
+                                    "<li>asesor: " . $field_asesor . "</li>" .
+                                    "<li>Mail del asesor: " . $recipient_email . "</li>" .
                               "</ul>";
 
       // if (get_plugin_options('contact_plugin_message')) {
