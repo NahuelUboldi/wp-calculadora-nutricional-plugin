@@ -56,3 +56,32 @@
 //     request.send(formData);
 //   });
 // });
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   var form = document.querySelector('#enquiry_form');
+//   form.addEventListener('submit', function (event) {
+//     event.preventDefault();
+//     document.querySelector('#form_error').style.display = 'none';
+//     var formData = new FormData(form);
+//     fetch("<?php echo get_rest_url(null, 'v1/contact-form/submit');?>", {
+//       method: 'POST',
+//       body: formData,
+//     })
+//       .then(function (response) {
+//         if (response.ok) {
+//           form.style.display = 'none';
+//           return response.text();
+//         } else {
+//           throw new Error('There was an error submitting');
+//         }
+//       })
+//       .then(function (text) {
+//         document.querySelector('#form_success').innerHTML = text;
+//         document.querySelector('#form_success').style.display = 'block';
+//       })
+//       .catch(function (error) {
+//         document.querySelector('#form_error').innerHTML = error.message;
+//         document.querySelector('#form_error').style.display = 'block';
+//       });
+//   });
+// });

@@ -381,17 +381,18 @@ function handle_enquiry($data) {
       // Set recipient email
       // get all asesores array
       $all_asesores = get_plugin_options('cn_plugin_asesores');
+      
 
       // filter only the selected asesor
-      $selected_asesor = array_filter($all_asesores,
-      function($all_asesores) {
-            return $all_asesores == $field_asesor;
-      });
+      // $selected_asesor = array_filter($all_asesores,
+      // function($asesor) {
+      //       return $asesor["asesor_nombre"] == $field_asesor;
+      // });
       
       // get the selected asesor email
-      $recipient_email = $selected_asesor["asesor_email"];
+      $recipient_email = $all_asesores[0]["asesor_email"];
 
-      var_dump($recipient_email);
+      
 
       if ($recipient_email) {
             // Make all lower case and trim out white space
@@ -465,6 +466,8 @@ function handle_enquiry($data) {
                                     "<li>Message: " . $field_message . "</li>" .
                                     "<li>asesor: " . $field_asesor . "</li>" .
                                     "<li>Mail del asesor: " . $recipient_email . "</li>" .
+                                    "<li>All asesores: " . $all_asesores . "</li>" .
+                                    "<li>selected asesor: " . $selected_asesor . "</li>" .
                               "</ul>";
 
       // if (get_plugin_options('contact_plugin_message')) {

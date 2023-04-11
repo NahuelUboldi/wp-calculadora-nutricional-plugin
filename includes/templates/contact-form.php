@@ -1,7 +1,42 @@
 <?php if( get_plugin_options('contact_plugin_active') ):?>
 
+      <?php
+$asesores = get_plugin_options('cn_plugin_asesores');
+            // var_dump($asesores);
+            
+            // array(2) { 
+            //       [0]=> array(3) { 
+            //             ["_type"]=> string(1) "_" 
+            //             ["asesor_nombre"]=> string(4) "pepe" 
+            //             ["asesor_email"]=> string(14) "pepe@gmail.com" } 
+            //       [1]=> array(3) { 
+            //             ["_type"]=> string(1) "_" 
+            //             ["asesor_nombre"]=> string(7) "roberto" ["asesor_email"]=> string(17) "roberto@gmail.com" } 
+            //       }
 
-
+            // array(3) { 
+            //       ["_type"]=> string(1) "_" 
+            //       ["asesor_nombre"]=> string(4) "pepe" 
+            //       ["asesor_email"]=> string(14) "pepe@gmail.com" 
+            // } 
+            // array(3) { 
+            //       ["_type"]=> string(1) "_" 
+            //       ["asesor_nombre"]=> string(7) "roberto" 
+            //       ["asesor_email"]=> string(17) "roberto@gmail.com" 
+            // }
+            
+      $field_asesor = "pepe";
+      
+      $selected_asesor = array_filter($asesores,function($asesor) { 
+                  global $field_asesor;
+                  var_dump($field_asesor);
+                  echo "asesor nombre: " . $asesor["asesor_nombre"] . "<br>";
+                  return $asesor["asesor_nombre"] == "pepe";
+      });
+      echo "/////////////<br>";
+      var_dump( $selected_asesor);
+      echo "<h1> Selected asesor: " . $selected_asesor[0]["asesor_nombre"] . "</h1>"
+?>
 
 <div id="form_success" style="background-color:green; color:#fff;"></div>
 <div id="form_error" style="background-color:red; color:#fff;"></div>
@@ -31,7 +66,7 @@
       <label for="asesor">Asesor</label>
       <select name="asesor">
       <?php 
-            $asesores = get_plugin_options('cn_plugin_asesores');
+            
             
             foreach($asesores as $asesor) { ?>
                   <option value="<?php echo $asesor["asesor_nombre"] ?>"><?php echo $asesor["asesor_nombre"] ?></option>
@@ -97,34 +132,39 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function() {
-  var form = document.querySelector("#enquiry_form");
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    document.querySelector("#form_error").style.display = "none";
-    var formData = new FormData(form);
-    fetch("<?php echo get_rest_url(null, 'v1/contact-form/submit');?>", {
-      method: "POST",
-      body: formData
-    })
-    .then(function(response) {
-      if (response.ok) {
-        form.style.display = "none";
-        return response.text();
-      } else {
-        throw new Error("There was an error submitting");
-      }
-    })
-    .then(function(text) {
-      document.querySelector("#form_success").innerHTML = text;
-      document.querySelector("#form_success").style.display = "block";
-    })
-    .catch(function(error) {
-      document.querySelector("#form_error").innerHTML = error.message;
-      document.querySelector("#form_error").style.display = "block";
-    });
-  });
+jQuery(document).ready(function($){
+
+      $("#enquiry_form").submit( function(event){
+
+            event.preventDefault();
+
+            $("#form_error").hide();
+
+            var form = $(this);
+
+            $.ajax({
+
+                  type:"POST",
+                  url: "<?php echo get_rest_url(null, 'v1/contact-form/submit');?>",
+                  data: form.serialize(),
+                  success:function(res){
+
+                        form.hide();
+
+                        $("#form_success").html(res).fadeIn();
+
+                  },
+                  error: function(){
+
+                        $("#form_error").html("There was an error submitting").fadeIn();
+                  }
+
+            })
+
+      });
+
 });
+
 
 
 </script>
