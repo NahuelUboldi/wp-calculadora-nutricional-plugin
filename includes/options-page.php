@@ -22,25 +22,30 @@ function create_options_page()
 
             ->set_page_menu_position(30)
 
-            ->set_icon('dashicons-smiley')
+            ->set_icon('dashicons-universal-access-alt')
+            
+
             
 
             ->add_fields(array(
 
-                  Field::make('checkbox', 'contact_plugin_active', __('Active')),
+                  Field::make( 'html', 'crb_information_text' )
+                        ->set_html( '<h1>Calculadora Nutricional - Página de configuración</h1><p>Para utilizar el plugin hay que ingresar el shortcode [calculadora-nutricional]</p>' ),
 
-                  Field::make('text', 'contact_plugin_recipients', __('Recipient Email'))
+                  Field::make('checkbox', 'cn_plugin_active', __('Plugin Activo')),
+
+                  Field::make('text', 'cn_plugin_recipient', __('Default Email'))
                         ->set_attribute('placeholder', 'eg. your@email.com')
-                        ->set_help_text('The email that the form is submitted to'),
+                        ->set_help_text('El correo que se utilizará para recibir los envíos si no hay ningún asesor definido'),
 
-                  Field::make('textarea', 'contact_plugin_message', __('Confirmation Message'))
+                  Field::make('textarea', 'contact_plugin_message', __('Mensaje de Confirmación'))
                         ->set_attribute('placeholder', 'Enter confirmation message')
-                        ->set_help_text('Type the message you want the submitted to receive'),
+                        ->set_help_text('El mensaje que se mostrará al usuario luego de rellenar los datos. Se puede utilizar la etiqueta {name}'),
 
                   Field::make( 'complex', 'cn_plugin_asesores', __( 'Asesores' ) )
                         ->add_fields( array(
-                              Field::make( 'text', 'asesor_nombre', __( 'Asesores Nombre' ) ),
-                              Field::make( 'text', 'asesor_email', __( 'Asesores Email' ) ),
+                              Field::make( 'text', 'asesor_nombre', __( 'Asesore Nombre' ) ),
+                              Field::make( 'text', 'asesor_email', __( 'Asesore Email' ) ),
                         ) )
 
                   ));

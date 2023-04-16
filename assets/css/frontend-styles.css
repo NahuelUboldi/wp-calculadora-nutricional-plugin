@@ -1,3 +1,7 @@
-/* body {
-  background: red !important;
-} */
+#enquiry_form {
+  display: block;
+  padding: 1rem;
+}
+#enquiry_form .input-group {
+  margin: 1rem 0;
+}

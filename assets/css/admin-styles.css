@@ -1,3 +1,11 @@
-.submission-page {
-  background-color: red !important;
+#submission-page {
+  display: flex;
+}
+#submission-page > div {
+  width: 100%;
+  padding: 1rem;
+}
+#submission-page h2 {
+  font-size: 1.1rem;
+  font-weight: bold;
 }

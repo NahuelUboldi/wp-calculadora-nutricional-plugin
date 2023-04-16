@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 add_action('wp_enqueue_scripts', 'load_jquery');
 
-add_shortcode('calculadora-nutricional', 'show_contact_form');
+add_shortcode('calculadora-nutricional', 'show_calculadora_nutricional');
 
 add_action('rest_api_init', 'create_rest_endpoint');
 
@@ -24,16 +24,18 @@ add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
 add_action('admin_enqueue_scripts', 'admin_style');
 
-function load_jquery() {wp_enqueue_script('jquery');}
+function load_jquery() {
+      wp_enqueue_script('jquery');
+}
 
 function enqueue_custom_scripts() {
       // Enqueue custom css for plugin
-      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css');
+      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css',[],time(),'all');
 }
 
 function admin_style() {
       // Enqueue custom css for admin page
-      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css');
+      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css',[],time(),'all');
 }
 
 function setup_search() {
@@ -57,7 +59,7 @@ function submission_search_override($search, $query) {
             $sql    = "
               or exists (
                   select * from {$wpdb->postmeta} where post_id={$wpdb->posts}.ID
-                  and meta_key in ('name','email','sexo','edad','altura','peso','cintura','cuello','cadera','actividad-fisica')
+                  and meta_key in ('name','email','sexo','edad','asesor','IMC')
                   and meta_value like %s
               )
           ";
@@ -73,7 +75,7 @@ function submission_search_override($search, $query) {
 }
 
 function fill_submission_columns($column, $post_id) {
-      // Return meta data for individual posts on table
+      // Fill the columns with metadata
 
       switch ($column) {
 
@@ -85,6 +87,10 @@ function fill_submission_columns($column, $post_id) {
                   echo esc_html(get_post_meta($post_id, 'email', true));
                   break;
 
+            case 'asesor':
+                  echo esc_html(get_post_meta($post_id, 'asesor', true));
+                  break;
+
             case 'sexo':
                   echo esc_html(get_post_meta($post_id, 'sexo', true));
                   break;
@@ -93,33 +99,10 @@ function fill_submission_columns($column, $post_id) {
                   echo esc_html(get_post_meta($post_id, 'edad', true));
                   break;
 
-            case 'altura':
-                  echo esc_html(get_post_meta($post_id, 'altura', true));
+            case 'IMC':
+                  echo esc_html(get_post_meta($post_id, 'IMC', true));
                   break;
 
-            case 'peso':
-                  echo esc_html(get_post_meta($post_id, 'peso', true));
-                  break;
-
-            case 'cintura':
-                  echo esc_html(get_post_meta($post_id, 'cintura', true));
-                  break;
-
-            case 'cuello':
-                  echo esc_html(get_post_meta($post_id, 'cuello', true));
-                  break;
-
-            case 'cadera':
-                  echo esc_html(get_post_meta($post_id, 'cadera', true));
-                  break;
-
-            case 'actividad-fisica':
-                  echo esc_html(get_post_meta($post_id, 'actividad-fisica', true));
-                  break;
-
-            case 'message':
-                  echo esc_html(get_post_meta($post_id, 'message', true));
-                  break;
       }
 }
 
@@ -131,15 +114,10 @@ function custom_submission_columns($columns) {
             'cb' => $columns['cb'],
             'name' => __('Name', 'contact-plugin'),
             'email' => __('Email', 'contact-plugin'),
+            'asesor' => __('Asesor', 'contact-plugin'),
             'sexo' => __('sexo', 'contact-plugin'),
             'edad' => __('edad', 'contact-plugin'),
-            'altura' => __('altura', 'contact-plugin'),
-            'peso' => __('peso', 'contact-plugin'),
-            'cintura' => __('cintura', 'contact-plugin'),
-            'cuello' => __('cuello', 'contact-plugin'),
-            'cadera' => __('cadera', 'contact-plugin'),
-            'actividad-fisica' => __('actividad-fisica', 'contact-plugin'),
-            'message' => __('Message', 'contact-plugin'),
+            'IMC' => __('IMC', 'contact-plugin'),
             'date' => 'Date',
 
       );
@@ -153,6 +131,7 @@ function create_meta_box() {
       add_meta_box('custom_contact_form', 'Submission', 'display_submission', 'submission');
 }
 
+
 function display_submission() {
       // Display submission data in admin custom post type page
 
@@ -161,7 +140,7 @@ function display_submission() {
       ///////////////////////////
 
       // $postmetas = get_post_meta( get_the_ID() );
-      // unset($postmetas['_edit_lock']) 
+      // unset($postmetas['_edit_lock']);
       // echo '<ul>';
       // foreach($postmetas as $key => $value)
       // {
@@ -175,45 +154,62 @@ function display_submission() {
       //////////////////////////////
 
       $name = esc_html(get_post_meta(get_the_ID(), 'name', true));
+      $email = esc_html(get_post_meta(get_the_ID(), 'email', true));
+      $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
+      $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
+      $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
+      $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
+      $peso = esc_html(get_post_meta(get_the_ID(), 'peso', true));
+      $cintura = esc_html(get_post_meta(get_the_ID(), 'cintura', true));
+      $cuello = esc_html(get_post_meta(get_the_ID(), 'cuello', true));
+      $cadera = esc_html(get_post_meta(get_the_ID(), 'cadera', true));
+      $actividad_fisica = esc_html(get_post_meta(get_the_ID(), 'actividad-fisica', true));
+
+      $IMC = esc_html(get_post_meta(get_the_ID(), 'IMC', true));
+      $metab_basal = esc_html(get_post_meta(get_the_ID(), 'metab-basal', true));
+      $porcentaje_grasa = esc_html(get_post_meta(get_the_ID(), 'porcentaje-grasa', true));
+      $kg_grasa = esc_html(get_post_meta(get_the_ID(), 'kg-grasa', true));
+      $kg_musculo = esc_html(get_post_meta(get_the_ID(), 'kg-musculo', true));
+      $proteina_diaria = esc_html(get_post_meta(get_the_ID(), 'proteina-diaria', true));
+
+// metabolismo basal
+
 
       echo "
-      <div class='submission-page'>
-            <ul>
-                  <li>Nombre: {$name}</li>
-            
-            </ul>
-      
+      <div id='submission-page'>
+            <div class='datos'>
+                  <h2>Datos ingresados por el usuario</h2>
+                  <ul>
+                        <li><strong>Nombre:</strong> {$name}</li>
+                        <li><strong>Email:</strong> {$email}</li>
+                        <li><strong>Asesor elegido:</strong> {$asesor}</li>
+                        <li><strong>Sexo:</strong> {$sexo}</li>
+                        <li><strong>Edad:</strong> {$edad}</li>
+                        <li><strong>Altura:</strong> {$altura}</li>
+                        <li><strong>Peso:</strong> {$peso}</li>
+                        <li><strong>Cintura:</strong> {$cintura}</li>
+                        <li><strong>Cuello:</strong> {$cuello}</li>
+                        <li><strong>Cadera:</strong> {$cadera}</li>
+                        <li><strong>Actividad Física:</strong> {$actividad_fisica}</li>
+                  
+                  </ul>          
+            </div>
+            <div class='calculations'>
+                  <h2>Calculos realizados</h2>
+                  <ul>
+                        <li><strong>IMC:</strong> {$IMC}</li>
+                        <li><strong>Metabolismo basal:</strong> {$metab_basal}</li>
+                        <li><strong>Porcentaje de grasa:</strong> {$porcentaje_grasa}</li>
+                        <li><strong>Kg de grasa:</strong> {$kg_grasa}</li>
+                        <li><strong>Kg de músculo:</strong> {$kg_musculo}</li>
+                        <li><strong>Proteina diaria:</strong> {$proteina_diaria}</li>
+                  
+                  </ul> 
+            </div>
+   
       </div>
       ";
-
-
-
-      // echo '<ul>';
-
-      // echo '<li>HOLA CHAROLA</li>';
-
-      // echo '<li><strong>Name:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'name', true)) . '</li>';
-      // echo '<li><strong>Email:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'email', true)) . '</li>';
-      
-      // echo '<li><strong>sexo:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'sexo', true)) . '</li>';
-
-      // echo '<li><strong>edad:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'edad', true)) . '</li>';
  
-      // echo '<li><strong>altura:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'altura', true)) . '</li>';
- 
-      // echo '<li><strong>peso:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'peso', true)) . '</li>';
- 
-      // echo '<li><strong>cintura:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'cintura', true)) . '</li>';
- 
-      // echo '<li><strong>cuello:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'cuello', true)) . '</li>';
-  
-      // echo '<li><strong>cadera:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'cadera', true)) . '</li>';
-  
-      // echo '<li><strong>actividad-fisica:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'actividad-fisica', true)) . '</li>';
-
-      // echo '<li><strong>Message:</strong><br /> ' . esc_html(get_post_meta(get_the_ID(), 'message', true)) . '</li>';
-
-      // echo '</ul>';
 }
 
 function create_submissions_page() {
@@ -225,10 +221,11 @@ function create_submissions_page() {
             'public' => true,
             'has_archive' => true,
             'menu_position' => 30,
+            'menu_icon' => 'dashicons-universal-access',
             'publicly_queryable' => false, // view the post in the frontend
             'labels' => [
 
-                  'name' => 'Submissions',
+                  'name' => 'CN - envíos',
                   'singular_name' => 'Submission',
                   'edit_item' => 'View Submission' // title of the submission edit item page
 
@@ -244,7 +241,7 @@ function create_submissions_page() {
       register_post_type('submission', $args);
 }
 
-function show_contact_form() {
+function show_calculadora_nutricional() {
       include MY_PLUGIN_PATH . '/includes/templates/contact-form.php';
 }
 
@@ -261,12 +258,9 @@ function create_rest_endpoint() {
 
 
 function handle_enquiry($data) {
-      
-      
-      /////////////////
+          /////////////////
       // SATINIZATION OF DATA
       /////////////////
-
       
       // Handle the form data that is posted
 
@@ -287,9 +281,6 @@ function handle_enquiry($data) {
       $field_cuello = intval(sanitize_text_field($params['cuello']));
       $field_cadera = intval(sanitize_text_field($params['cadera']));
       $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']);
-
-
-      $field_message = sanitize_textarea_field($params['message']);
 
       /////////////////
       // CALCULATIONS
@@ -334,31 +325,6 @@ function handle_enquiry($data) {
 
       }
 
-
-      //=IF(C4="Hombre",
-      // 495/(1.0324-(0.19077*log($field_cintura-$field_cuello))+(0.15456*log($field_altura)))-450
-      // 495/(1.29579-(0.35004*log($field_cintura-$field_cuello+$field_cadera))+(0.221*log($field_altura)))-450
-
-      //=IF(C4="Hombre",
-      // 495/(1.0324-(0.19077*LOG(C8-C9))+(0.15456*LOG(C6)))-450,
-      // 495/(1.29579-(0.35004*LOG(C8-C9+C10))+(0.221*LOG(C6)))-450)
-      
-
-      // $field_sexo C4
-      // $field_edad C5
-      // $field_altura C6
-      // $field_peso C7
-      // $field_cintura C8
-      // $field_cuello C9
-      // $field_cadera C10
-      // $field_actividad_fisica C11
-      // $field_IMC C13
-      // $field_metab_basal C14
-      // $field_porcentaje_grasa C15 
-      // $field_kg_grasa C16 
-      // $field_kg_musculo C17 
-      // $field_proteina_diaria C18
-
       // Check if nonce is valid, if not, respond back with error
       if (!wp_verify_nonce($params['_wpnonce'], 'wp_rest')) {
 
@@ -369,70 +335,11 @@ function handle_enquiry($data) {
       unset($params['_wpnonce']);
       unset($params['_wp_http_referer']);
 
-      /////////////////
-      // EMAIL
-      /////////////////
-
-      $headers = [];
-
-      $admin_email = get_bloginfo('admin_email');
-      $admin_name = get_bloginfo('name');
-
-      // Set recipient email
-      // get all asesores array
-      $all_asesores = get_plugin_options('cn_plugin_asesores');
-      
-
-      // filter only the selected asesor
-      // $selected_asesor = array_filter($all_asesores,
-      // function($asesor) {
-      //       return $asesor["asesor_nombre"] == $field_asesor;
-      // });
-      
-      // get the selected asesor email
-      $recipient_email = $all_asesores[0]["asesor_email"];
-
-      
-
-      if ($recipient_email) {
-            // Make all lower case and trim out white space
-            $recipient_email = strtolower(trim($recipient_email));
-      } else {
-
-            // Set admin email as recipient email if no option has been set
-            $recipient_email = $admin_email;
-      }
-
-
-      $headers[] = "From: {$admin_name} <{$admin_email}>";
-      $headers[] = "Reply-to: {$field_name} <{$field_email}>";
-      $headers[] = "Content-Type: text/html";
-
-      $subject = "New enquiry from {$field_name}";
-
-      $message = '';
-      $message = "<h1>Message has been sent from {$field_name}</h1>";
-
-
-      $postarr = [
-
-            'post_title' => $params['name'],
-            'post_type' => 'submission',
-            'post_status' => 'publish'
-
-      ];
-
-      $post_id = wp_insert_post($postarr);
 
       // Loop through each field posted and sanitize it
       foreach ($params as $label => $value) {
 
             switch ($label) {
-
-                  case 'message':
-
-                        $value = sanitize_textarea_field($value);
-                        break;
 
                   case 'email':
 
@@ -444,38 +351,173 @@ function handle_enquiry($data) {
                         $value = sanitize_text_field($value);
             }
 
-            add_post_meta($post_id, sanitize_text_field($label), $value);
+            // add_post_meta($post_id, sanitize_text_field($label), $value);
 
-            $message .= '<strong>' . sanitize_text_field(ucfirst($label)) . ':</strong> ' . $value . '<br />';
+            // $message .= '<strong>' . sanitize_text_field(ucfirst($label)) . ':</strong> ' . $value . '<br />';
       }
 
 
+     
+
+      
+
+
+
+      // CREATE AND INSERT CUSTOM POST TYPE AND CUSTOM FIELDS
+      $postarr = [
+
+            'post_title' => $params['name'],
+            'post_type' => 'submission',
+            'post_status' => 'publish'
+
+      ];
+
+      $post_id = wp_insert_post($postarr); // insert the post type
+
+      // insert the custom post fields
+      add_post_meta($post_id, 'name', $field_name);
+      add_post_meta($post_id, 'email', $field_email);
+      add_post_meta($post_id, 'asesor', $field_asesor);
+      add_post_meta($post_id, 'sexo', $field_sexo);
+      add_post_meta($post_id, 'edad', $field_edad);
+      add_post_meta($post_id, 'altura', $field_altura);
+      add_post_meta($post_id, 'peso', $field_peso);
+      add_post_meta($post_id, 'cintura', $field_cintura);
+      add_post_meta($post_id, 'cuello', $field_cuello);
+      add_post_meta($post_id, 'cadera', $field_cadera);
+      add_post_meta($post_id, 'actividad-fisica', $field_actividad_fisica);
+      add_post_meta($post_id, 'IMC', $field_IMC);
+      add_post_meta($post_id, 'metab-basal', $field_metab_basal);
+      add_post_meta($post_id, 'porcentaje-grasa', $field_porcentaje_grasa);
+      add_post_meta($post_id, 'kg-grasa', $field_kg_grasa);
+      add_post_meta($post_id, 'kg-musculo', $field_kg_musculo);
+      add_post_meta($post_id, 'proteina-diaria', $field_proteina_diaria);
+
+
+      /////////////////
+      // EMAIL
+      /////////////////
+
+      $headers = [];
+
+      $admin_email = get_bloginfo('admin_email');
+      $admin_name = get_bloginfo('name');
+
+      // Set recipient email
+      $all_asesores = get_plugin_options('cn_plugin_asesores');
+      
+      $recipient_email = get_plugin_options('cn_plugin_recipient');
+
+      foreach($all_asesores as $key => $value) {
+            if($value["asesor_nombre"] == $field_asesor) {
+                  $recipient_email = $value["asesor_email"];
+            }
+      }
+      if (!$recipient_email) {
+            // Set admin email as recipient email if no option has been set
+            $recipient_email = $admin_email;
+      }
+
+
+      $headers[] = "From: {$admin_name} <{$admin_email}>";
+      $headers[] = "Reply-to: {$field_name} <{$field_email}>";
+      $headers[] = "Content-Type: text/html";
+
+      $subject = "{$field_name} ha completado la Calculadora Nutricional";
+
+      $message = "
+      <span class='preheader' style='color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;'>This is preheader text. Some clients will show this text as a preview.</span>
+      <table role='presentation' border='0' cellpadding='0' cellspacing='0' class='body' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;' width='100%' bgcolor='#f6f6f6'>
+      <tr>
+            <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>&nbsp;</td>
+            <td class='container' style='font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; max-width: 580px; padding: 10px; width: 580px; margin: 0 auto;' width='580' valign='top'>
+            <div class='content' style='box-sizing: border-box; display: block; margin: 0 auto; max-width: 580px; padding: 10px;'>
+
+            <!-- START CENTERED WHITE CONTAINER -->
+            <table role='presentation' class='main' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border-radius: 3px; width: 100%;' width='100%'>
+
+                  <!-- START MAIN CONTENT AREA -->
+                  <tr>
+                  <td class='wrapper' style='font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;' valign='top'>
+                  <table role='presentation' border='0' cellpadding='0' cellspacing='0' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;' width='100%'>
+                        <tr>
+                        <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>
+                        
+                        <h1 style='font-family: sans-serif; font-size: 32px; font-weight: bold; margin: 0; margin-bottom: 15px;'>
+                        {$field_name} ha completado sus datos en la Calculadora Nutricional
+                        </h1>
+
+                        <p style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'>
+                        Estos son los datos ingresados:
+                        </p>
+
+                        <ul>
+                              <li><strong>Nombre:</strong> {$field_name}</li>
+                              <li><strong>Email:</strong> {$field_email}</li>
+                              <li><strong>Asesor elegido:</strong> {$field_asesor}</li>
+                              <li><strong>Sexo:</strong> {$field_sexo}</li>
+                              <li><strong>Edad:</strong> {$field_edad}</li>
+                              <li><strong>Altura:</strong> {$field_altura}</li>
+                              <li><strong>Peso:</strong> {$field_peso}</li>
+                              <li><strong>Cintura:</strong> {$field_cintura}</li>
+                              <li><strong>Cuello:</strong> {$field_cuello}</li>
+                              <li><strong>Cadera:</strong> {$field_cadera}</li>
+                              <li><strong>Actividad Física:</strong> {$field_actividad_fisica}</li>
+                        
+                        </ul>          
+
+                        <p style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'>
+                        Con esos datos se han realizado los siguientes cálculos
+                        </p>
+                        <ul>
+                              <li><strong>IMC:</strong> {$field_IMC}</li>
+                              <li><strong>Metabolismo basal:</strong> {$field_metab_basal}</li>
+                              <li><strong>Porcentaje de grasa:</strong> {$field_porcentaje_grasa}</li>
+                              <li><strong>Kg de grasa:</strong> {$field_kg_grasa}</li>
+                              <li><strong>Kg de músculo:</strong> {$field_kg_musculo}</li>
+                              <li><strong>Proteina diaria:</strong> {$field_proteina_diaria}</li>
+                        
+                        </ul> 
+                        
+                        
+                        
+            <!-- END MAIN CONTENT AREA -->
+            </table>
+            <!-- END CENTERED WHITE CONTAINER -->
+
+            </div>
+            </td>
+            <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>&nbsp;</td>
+      </tr>
+      </table>
+      ";
+
+      // send email
       wp_mail($recipient_email, $subject, $message, $headers);
 
-      $confirmation_message = "<h2>Contenido del form</h2>".
-                              "<ul>".
-                                    "<li>Name: " . $field_name . "</li>" .
-                                    "<li>Email: " . $field_email . "</li>" .
-                                    "<li>Sexo: " . $field_sexo . "</li>" .
-                                    "<li>IMC: " . $field_IMC . "</li>" .
-                                    "<li>Metab basal: " . $field_metab_basal . "</li>" .                                    "<li>% grasa: " . $field_porcentaje_grasa . "</li>" .
-                                    "<li>kg grasa: " . $field_kg_grasa . "</li>" .
-                                    "<li>kg musculo: " . $field_kg_musculo . "</li>" .
-                                    "<li>proteina diaria: " . $field_proteina_diaria  . "</li>" .
-                                    "<li>Actividad Física: " . $field_actividad_fisica . "</li>" .
-                                    "<li>Message: " . $field_message . "</li>" .
-                                    "<li>asesor: " . $field_asesor . "</li>" .
-                                    "<li>Mail del asesor: " . $recipient_email . "</li>" .
-                                    "<li>All asesores: " . $all_asesores . "</li>" .
-                                    "<li>selected asesor: " . $selected_asesor . "</li>" .
-                              "</ul>";
+      // $confirmation_message = "<h2>Contenido del form</h2>".
+      //                         "<ul>".
+      //                               "<li>Name: " . $field_name . "</li>" .
+      //                               "<li>Email: " . $field_email . "</li>" .
+      //                               "<li>Sexo: " . $field_sexo . "</li>" .
+      //                               "<li>IMC: " . $field_IMC . "</li>" .
+      //                               "<li>Metab basal: " . $field_metab_basal . "</li>" .                                    "<li>% grasa: " . $field_porcentaje_grasa . "</li>" .
+      //                               "<li>kg grasa: " . $field_kg_grasa . "</li>" .
+      //                               "<li>kg musculo: " . $field_kg_musculo . "</li>" .
+      //                               "<li>proteina diaria: " . $field_proteina_diaria  . "</li>" .
+      //                               "<li>Actividad Física: " . $field_actividad_fisica . "</li>" .
+      //                               "<li>Message: " . $field_message . "</li>" .
+      //                               "<li>asesor: " . $field_asesor . "</li>" .
+      //                               "<li>Mail del asesor: " . $recipient_email . "</li>" .
+                                    
+      //                         "</ul>";
 
-      // if (get_plugin_options('contact_plugin_message')) {
+      if (get_plugin_options('contact_plugin_message')) {
 
-      //       $confirmation_message = get_plugin_options('contact_plugin_message');
+            $confirmation_message = get_plugin_options('contact_plugin_message');
 
-      //       $confirmation_message = str_replace('{name}', $field_name, $confirmation_message);
-      // }
+            $confirmation_message = str_replace('{name}', $field_name, $confirmation_message);
+      }
 
       return new WP_Rest_Response($confirmation_message, 200);
 }

@@ -5,7 +5,7 @@
  * Description: Custom Plugin de calculadora nutricional que permite obtener índice de masa corporal y otros parámetros
  * Version: 1.0.0
  * Author: Nahuel Uboldi
- * Text Domain: contact-plugin
+ * Text Domain: calculadora-nutricional-plugin
  * 
  */
 
