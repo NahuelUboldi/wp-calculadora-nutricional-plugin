@@ -44,8 +44,8 @@ function create_options_page()
 
                   Field::make( 'complex', 'cn_plugin_asesores', __( 'Asesores' ) )
                         ->add_fields( array(
-                              Field::make( 'text', 'asesor_nombre', __( 'Asesore Nombre' ) ),
-                              Field::make( 'text', 'asesor_email', __( 'Asesore Email' ) ),
+                              Field::make( 'text', 'asesor_nombre', __( 'Asesor Nombre' ) ),
+                              Field::make( 'text', 'asesor_email', __( 'Asesor Email' ) ),
                         ) )
 
                   ));

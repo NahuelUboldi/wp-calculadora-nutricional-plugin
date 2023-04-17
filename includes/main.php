@@ -115,8 +115,8 @@ function custom_submission_columns($columns) {
             'name' => __('Name', 'contact-plugin'),
             'email' => __('Email', 'contact-plugin'),
             'asesor' => __('Asesor', 'contact-plugin'),
-            'sexo' => __('sexo', 'contact-plugin'),
-            'edad' => __('edad', 'contact-plugin'),
+            'sexo' => __('Sexo', 'contact-plugin'),
+            'edad' => __('Edad', 'contact-plugin'),
             'IMC' => __('IMC', 'contact-plugin'),
             'date' => 'Date',
 
