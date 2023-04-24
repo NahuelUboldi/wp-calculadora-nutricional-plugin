@@ -24,6 +24,14 @@ add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
 add_action('admin_enqueue_scripts', 'admin_style');
 
+function myplugin_query_vars( $qvars ) {
+	$qvars[] = 'name';
+	$qvars[] = 'asesor';
+	return $qvars;
+}
+add_filter( 'query_vars', 'myplugin_query_vars' );
+
+
 function load_jquery() {
       wp_enqueue_script('jquery');
 }
@@ -356,13 +364,6 @@ function handle_enquiry($data) {
             // $message .= '<strong>' . sanitize_text_field(ucfirst($label)) . ':</strong> ' . $value . '<br />';
       }
 
-
-     
-
-      
-
-
-
       // CREATE AND INSERT CUSTOM POST TYPE AND CUSTOM FIELDS
       $postarr = [
 
@@ -510,14 +511,19 @@ function handle_enquiry($data) {
       //                               "<li>asesor: " . $field_asesor . "</li>" .
       //                               "<li>Mail del asesor: " . $recipient_email . "</li>" .
                                     
-      //                         "</ul>";
+      //"</ul>";
 
-      if (get_plugin_options('contact_plugin_message')) {
+      if (get_plugin_options('cn_plugin_message')) {
 
-            $confirmation_message = get_plugin_options('contact_plugin_message');
+            $confirmation_message = get_plugin_options('cn_plugin_message');
 
             $confirmation_message = str_replace('{name}', $field_name, $confirmation_message);
       }
+      if (get_plugin_options('cn_plugin_redirect_url')) {
+            $url = get_permalink(get_plugin_options('cn_plugin_redirect_url'));
+            $confirmation_message = "{$url}?name={$field_name}&asesor={$field_asesor}";
+      }
+      
 
       return new WP_Rest_Response($confirmation_message, 200);
 }

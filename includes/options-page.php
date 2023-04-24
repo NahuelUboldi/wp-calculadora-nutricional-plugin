@@ -16,6 +16,16 @@ function load_carbon_fields()
       \Carbon_Fields\Carbon_Fields::boot();
 }
 
+// Helper function to get all pages
+function get_all_pages() {
+    $pages = get_pages();
+    $options = array();
+    foreach ($pages as $page) {
+        $options[$page->ID] = $page->post_title;
+    }
+    return $options;
+}
+
 function create_options_page()
 {
       Container::make('theme_options', __('CN - Opciones'))
@@ -37,8 +47,11 @@ function create_options_page()
                   Field::make('text', 'cn_plugin_recipient', __('Default Email'))
                         ->set_attribute('placeholder', 'eg. your@email.com')
                         ->set_help_text('El correo que se utilizará para recibir los envíos si no hay ningún asesor definido'),
+                  Field::make('select', 'cn_plugin_redirect_url', 'Elegir página para redirecionar después del envío')
+                        ->add_options(get_all_pages())
+                        ->set_required(true),
 
-                  Field::make('textarea', 'contact_plugin_message', __('Mensaje de Confirmación'))
+                  Field::make('textarea', 'cn_plugin_message', __('Mensaje de Confirmación'))
                         ->set_attribute('placeholder', 'Enter confirmation message')
                         ->set_help_text('El mensaje que se mostrará al usuario luego de rellenar los datos. Se puede utilizar la etiqueta {name}'),
 
