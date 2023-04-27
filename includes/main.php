@@ -301,15 +301,35 @@ function handle_enquiry($data) {
             $field_metab_basal = round(66.5+(13.8*$field_peso)+(5*$field_altura)-(6.8*$field_edad));
             
             
-            $field_porcentaje_grasa = round(495 / (1.0324 - (0.19077 * log($field_cintura - $field_cuello)) + (0.15456 * log($field_altura))) - 450);
-            
+            // $field_porcentaje_grasa = round(495 / (1.0324 - 0.19077 * log($field_cintura - $field_cuello) + (0.15456 * log($field_altura))) - 450);
+
+            // chatgpt
+            $field_porcentaje_grasa = 495 / (1.10938 - (0.0008267 * ($field_cintura - $field_cuello)) + (0.0000016 * pow($field_cintura- $field_cuello, 2)) - (0.0002574 * $field_altura)) - 450;
+
+            // $field_porcentaje_grasa = 495 / (1.0324 - 0.19077 * log($field_cintura - $field_cuello) + 0.15456 * log($field_altura)) - 450;
+
+
+            // %Grasa=495/(1.0324-0.19077(log(cintura-cuello))+0.15456(log(altura)))-450
+            // $grasa = 495 / (1.0324 - 0.19077 * log($cintura - $cuello) + 0.15456 * log($altura)) - 450;
+
       } else {
             
             $field_metab_basal = round(655+(9.6*$field_peso)+(1.85*$field_altura)-(4.7*$field_edad));
 
-            $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log($field_cintura-$field_cuello+$field_cadera))+(0.221*log($field_altura)))-450);
+            // $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log($field_cintura-$field_cuello+$field_cadera))+(0.221*log($field_altura)))-450);
+            
+            //$field_porcentaje_grasa = 495 / (1.29579 - 0.35004 * log($field_cintura + $field_cadera - $field_cuello) + 0.22100 * log($field_altura)) - 450;
+
+            // chatgpt
+            $field_porcentaje_grasa = 495 / (1.089733 - (0.0009245 * ($field_cintura + $field_cadera - $field_cuello)) + (0.0000025 * pow($field_cintura + $field_cadera - $field_cuello, 2)) - (0.0000979 * $field_altura)) - 450;
+
+            
+            
+            // $grasa = 495 / (1.29579 - 0.35004 * log($cintura + $cadera - $cuello) + 0.22100 * log($altura)) - 450;
       }
       
+
+
       $field_kg_grasa = round($field_peso*$field_porcentaje_grasa/100);
 
       if ($field_sexo == 'hombre') { 
