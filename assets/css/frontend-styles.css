@@ -1,3 +1,19 @@
+.form-alert {
+  border: solid 1px transparent;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  box-shadow: 1px 1px 5px -5px rgba(0, 0, 0, 0.18) inset;
+  -webkit-box-shadow: 1px 1px 5px -5px rgba(0, 0, 0, 0.18) inset;
+  -moz-box-shadow: 1px 1px 5px -5px rgba(0, 0, 0, 0.18) inset;
+}
+#form-success {
+  background-color: #d4edda;
+}
+#form-error {
+  background-color: #f8d7da;
+}
+
 #enquiry_form {
   display: block;
   padding: 1rem;
@@ -9,22 +25,26 @@
 #enquiry_form .input-group {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
 }
 #enquiry_form .input-group input {
   width: 100%;
 }
 
-#enquiry_form .col-3,
-#enquiry_form .col-wrap {
+#enquiry_form .col-3 {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 1rem;
 }
+#enquiry_form .col-wrap {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+
+  gap: 1rem;
+}
 #enquiry_form .col-wrap .input-group {
-  width: 20%;
-  min-width: 200px;
+  width: 100%;
 }
 #enquiry_form .col-3 .input-group {
   display: flex;
@@ -38,5 +58,10 @@
   #enquiry_form .col-3,
   #enquiry_form .col-wrap {
     flex-direction: row;
+  }
+}
+@media (min-width: 576px) {
+  #enquiry_form .col-wrap {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

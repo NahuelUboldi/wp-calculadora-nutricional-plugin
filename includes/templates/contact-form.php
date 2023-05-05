@@ -2,8 +2,8 @@
 
 
 
-<div id="form_success" style="background-color:green; color:#fff;"></div>
-<div id="form_error" style="background-color:red; color:#fff;"></div>
+<div id="form-success"></div>
+<div id="form-error"></div>
 
 <form id="enquiry_form">
       <?php
@@ -24,23 +24,23 @@ $pages = get_pages();
       <div class="col-3">
             <div class="input-group">
                   <label>Nombre</label>
-                  <input type="text" name="name">
+                  <input type="text" name="name" placeholder="Ej: Juan Pérez">
             </div>
             <div class="input-group">
                   <label>Edad</label>
-                  <input type="number" name="edad">
+                  <input type="number" name="edad" placeholder="00">
             </div>
       </div>
 
 
       <div class="input-group">
       <label>Email</label>
-      <input type="text" name="email">
+      <input type="text" name="email" placeholder="Ej: juan@correo.com">
       </div>
 
       <div class="col-3">
             <div class="input-group">
-                  <label for="asesor">Asesor</label>
+                  <label for="asesor">Elegir Asesor</label>
                   <select name="asesor">
                   <?php 
                         
@@ -73,27 +73,27 @@ $pages = get_pages();
       
             <div class="input-group">
                   <label>Altura</label>
-                  <input type="number" name="altura">
+                  <input type="number" name="altura" placeholder="00">
             </div>
       
             <div class="input-group">
                   <label>Peso</label>
-                  <input type="number" name="peso">
+                  <input type="number" name="peso" placeholder="00">
             </div>
 
             <div class="input-group">
                   <label>Cintura</label>
-                  <input type="number" name="cintura">
+                  <input type="number" name="cintura" placeholder="00">
             </div>
             
             <div class="input-group">
                   <label>Cuello</label>
-                  <input type="number" name="cuello">
+                  <input type="number" name="cuello" placeholder="00">
             </div>
 
             <div class="input-group">
                   <label>Cadera</label>
-                  <input type="number" name="cadera">
+                  <input type="number" name="cadera" placeholder="00">
             </div>
       </div>
 
@@ -120,27 +120,31 @@ jQuery(document).ready(function($){
                   type:"POST",
                   url: "<?php echo get_rest_url(null, 'v1/contact-form/submit');?>",
                   data: form.serialize(),
-                  success:function(res){
-
-                        form.hide();
-
-                        $("#form_success").html(res).fadeIn();
-
-                  },
                   // success:function(res){
 
-                  // form.hide();
+                  //       form.hide();
 
-                  //       // check if response is a URL
-                  //       if(/^https?:\/\//.test(res)){
-                  //       window.location.replace(res);
-                  //       } else {
                   //       $("#form_success").html(res).fadeIn();
-                  //       }
+
                   // },
+                  success:function(res){
+
+                  form.hide();
+
+                        // check if response is a URL
+                        if(/^https?:\/\//.test(res)){
+                        window.location.replace(res);
+                        } else {
+                        $("#form-success").html(res).addClass("form-alert").fadeIn();
+                        
+                        }
+                  },
                   error: function(){
 
-                        $("#form_error").html("There was an error submitting").fadeIn();
+                        $("#form-error").html("Hubo un error al tratar de enviar el mensaje. Por favor, verifica que todos los campos han sido completados con la información correcta. Gracias.").addClass("form-alert").fadeIn();
+                        setTimeout(() => {
+                              $("#form-error").fadeOut()
+                        }, 2500);
                   }
 
             })

@@ -47,13 +47,21 @@ function create_options_page()
                   Field::make('text', 'cn_plugin_recipient', __('Default Email'))
                         ->set_attribute('placeholder', 'eg. your@email.com')
                         ->set_help_text('El correo que se utilizará para recibir los envíos si no hay ningún asesor definido'),
-                  Field::make('select', 'cn_plugin_redirect_url', 'Elegir página para redirecionar después del envío')
+
+                  Field::make('checkbox', 'cn_plugin_redirection_page', __('Utilizar página de redirección')),
+                  Field::make('select', 'cn_plugin_redirect_url', 'Página de redirección')
+                        ->set_conditional_logic( array(
+                              array(
+                                    'field' => 'cn_plugin_redirection_page',
+                                    'value' => true,
+                              )
+                        ) )
                         ->add_options(get_all_pages())
-                        ->set_required(true),
+                        ->set_help_text('Elegir página para redirecionar después del envío. Para recuperar los parametros [nombre] y [asesor], hay que instalar el plugin "URL Params" e insertar el código [urlparam param="parametro" /] en el lugar del texto donde se quiera hacer referencia a dichos parámetros.'),
 
                   Field::make('textarea', 'cn_plugin_message', __('Mensaje de Confirmación'))
                         ->set_attribute('placeholder', 'Enter confirmation message')
-                        ->set_help_text('El mensaje que se mostrará al usuario luego de rellenar los datos. Se puede utilizar la etiqueta {name}'),
+                        ->set_help_text('El mensaje que se mostrará al usuario luego de rellenar los datos si no hay página de redirección selecionada. Se puede utilizar la etiqueta {name}'),
 
                   Field::make( 'complex', 'cn_plugin_asesores', __( 'Asesores' ) )
                         ->add_fields( array(

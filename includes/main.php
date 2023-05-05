@@ -25,7 +25,7 @@ add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 add_action('admin_enqueue_scripts', 'admin_style');
 
 function myplugin_query_vars( $qvars ) {
-	$qvars[] = 'name';
+	$qvars[] = 'nombre';
 	$qvars[] = 'asesor';
 	return $qvars;
 }
@@ -301,31 +301,14 @@ function handle_enquiry($data) {
             $field_metab_basal = round(66.5+(13.8*$field_peso)+(5*$field_altura)-(6.8*$field_edad));
             
             
-            // $field_porcentaje_grasa = round(495 / (1.0324 - 0.19077 * log($field_cintura - $field_cuello) + (0.15456 * log($field_altura))) - 450);
-
-            // chatgpt
-            $field_porcentaje_grasa = 495 / (1.10938 - (0.0008267 * ($field_cintura - $field_cuello)) + (0.0000016 * pow($field_cintura- $field_cuello, 2)) - (0.0002574 * $field_altura)) - 450;
-
-            // $field_porcentaje_grasa = 495 / (1.0324 - 0.19077 * log($field_cintura - $field_cuello) + 0.15456 * log($field_altura)) - 450;
-
-
-            // %Grasa=495/(1.0324-0.19077(log(cintura-cuello))+0.15456(log(altura)))-450
-            // $grasa = 495 / (1.0324 - 0.19077 * log($cintura - $cuello) + 0.15456 * log($altura)) - 450;
+            $field_porcentaje_grasa = round(495 / (1.0324 - 0.19077 * log10($field_cintura - $field_cuello) + (0.15456 * log10($field_altura))) - 450);
 
       } else {
             
             $field_metab_basal = round(655+(9.6*$field_peso)+(1.85*$field_altura)-(4.7*$field_edad));
 
-            // $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log($field_cintura-$field_cuello+$field_cadera))+(0.221*log($field_altura)))-450);
+            $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log10($field_cintura-$field_cuello+$field_cadera))+(0.221*log10($field_altura)))-450);
             
-            //$field_porcentaje_grasa = 495 / (1.29579 - 0.35004 * log($field_cintura + $field_cadera - $field_cuello) + 0.22100 * log($field_altura)) - 450;
-
-            // chatgpt
-            $field_porcentaje_grasa = 495 / (1.089733 - (0.0009245 * ($field_cintura + $field_cadera - $field_cuello)) + (0.0000025 * pow($field_cintura + $field_cadera - $field_cuello, 2)) - (0.0000979 * $field_altura)) - 450;
-
-            
-            
-            // $grasa = 495 / (1.29579 - 0.35004 * log($cintura + $cadera - $cuello) + 0.22100 * log($altura)) - 450;
       }
       
 
@@ -539,9 +522,9 @@ function handle_enquiry($data) {
 
             $confirmation_message = str_replace('{name}', $field_name, $confirmation_message);
       }
-      if (get_plugin_options('cn_plugin_redirect_url')) {
+      if (get_plugin_options('cn_plugin_redirection_page')) {
             $url = get_permalink(get_plugin_options('cn_plugin_redirect_url'));
-            $confirmation_message = "{$url}?name={$field_name}&asesor={$field_asesor}";
+            $confirmation_message = "{$url}?nombre={$field_name}&asesor={$field_asesor}";
       }
       
 
