@@ -38,12 +38,12 @@ function load_jquery() {
 
 function enqueue_custom_scripts() {
       // Enqueue custom css for plugin
-      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css',[],time(),'all');
+      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css',[],1.0,'all');
 }
 
 function admin_style() {
       // Enqueue custom css for admin page
-      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css',[],time(),'all');
+      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css',[],1.0,'all');
 }
 
 function setup_search() {

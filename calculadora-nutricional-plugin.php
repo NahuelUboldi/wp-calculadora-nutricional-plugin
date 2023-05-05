@@ -2,7 +2,7 @@
 /**
  * 
  * Plugin name: WP Calculadora Nutricional 
- * Description: Custom Plugin de calculadora nutricional que permite obtener índice de masa corporal y otros parámetros
+ * Description: Permite obtener índice de masa corporal y otros parámetros a partir de datos ingresados por el usuario
  * Version: 1.0.0
  * Author: Nahuel Uboldi
  * Text Domain: calculadora-nutricional-plugin
