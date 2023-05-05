@@ -1,24 +1,9 @@
 <?php if( get_plugin_options('cn_plugin_active') ):?>
 
-
-
 <div id="form-success"></div>
 <div id="form-error"></div>
 
 <form id="enquiry_form">
-      <?php
-// Get all pages
-$pages = get_pages();
-
-
-// Loop through the pages
-// foreach ($pages as $page) {
-
-//     echo '<a href="' . get_permalink($page->ID) . '">' . $page->post_title . '</a><br>';
-// }
-
-?>
-
 
       <?php wp_nonce_field('wp_rest');?>
       <div class="col-3">
@@ -159,6 +144,6 @@ jQuery(document).ready(function($){
 
 <?php else:?>
 
-<p>This form is not active</p>
+<p>La calculadora nutricional no está activa. Revisa la página de configuración.</p>
 
 <?php endif;?>

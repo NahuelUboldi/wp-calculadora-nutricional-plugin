@@ -143,24 +143,6 @@ function create_meta_box() {
 function display_submission() {
       // Display submission data in admin custom post type page
 
-      ///////////////////////////
-      // Dynamic way of doing it
-      ///////////////////////////
-
-      // $postmetas = get_post_meta( get_the_ID() );
-      // unset($postmetas['_edit_lock']);
-      // echo '<ul>';
-      // foreach($postmetas as $key => $value)
-      // {
-      //       echo '<li><strong>' . ucfirst($key) . ':</strong> ' . $value[0] . '</li>';
-      // }
-      // echo '</ul>';
-
-
-      //////////////////////////////
-      // Hard code way of doing it
-      //////////////////////////////
-
       $name = esc_html(get_post_meta(get_the_ID(), 'name', true));
       $email = esc_html(get_post_meta(get_the_ID(), 'email', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
@@ -310,9 +292,7 @@ function handle_enquiry($data) {
             $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log10($field_cintura-$field_cuello+$field_cadera))+(0.221*log10($field_altura)))-450);
             
       }
-      
-
-
+ 
       $field_kg_grasa = round($field_peso*$field_porcentaje_grasa/100);
 
       if ($field_sexo == 'hombre') { 
@@ -362,9 +342,6 @@ function handle_enquiry($data) {
                         $value = sanitize_text_field($value);
             }
 
-            // add_post_meta($post_id, sanitize_text_field($label), $value);
-
-            // $message .= '<strong>' . sanitize_text_field(ucfirst($label)) . ':</strong> ' . $value . '<br />';
       }
 
       // CREATE AND INSERT CUSTOM POST TYPE AND CUSTOM FIELDS
@@ -499,23 +476,7 @@ function handle_enquiry($data) {
       // send email
       wp_mail($recipient_email, $subject, $message, $headers);
 
-      // $confirmation_message = "<h2>Contenido del form</h2>".
-      //                         "<ul>".
-      //                               "<li>Name: " . $field_name . "</li>" .
-      //                               "<li>Email: " . $field_email . "</li>" .
-      //                               "<li>Sexo: " . $field_sexo . "</li>" .
-      //                               "<li>IMC: " . $field_IMC . "</li>" .
-      //                               "<li>Metab basal: " . $field_metab_basal . "</li>" .                                    "<li>% grasa: " . $field_porcentaje_grasa . "</li>" .
-      //                               "<li>kg grasa: " . $field_kg_grasa . "</li>" .
-      //                               "<li>kg musculo: " . $field_kg_musculo . "</li>" .
-      //                               "<li>proteina diaria: " . $field_proteina_diaria  . "</li>" .
-      //                               "<li>Actividad Física: " . $field_actividad_fisica . "</li>" .
-      //                               "<li>Message: " . $field_message . "</li>" .
-      //                               "<li>asesor: " . $field_asesor . "</li>" .
-      //                               "<li>Mail del asesor: " . $recipient_email . "</li>" .
-                                    
-      //"</ul>";
-
+      
       if (get_plugin_options('cn_plugin_message')) {
 
             $confirmation_message = get_plugin_options('cn_plugin_message');
