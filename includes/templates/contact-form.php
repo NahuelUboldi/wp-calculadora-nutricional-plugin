@@ -8,25 +8,30 @@
       <?php wp_nonce_field('wp_rest');?>
       <div class="col-3">
             <div class="input-group">
-                  <label>Nombre</label>
-                  <input type="text" name="name" placeholder="Ej: Juan Pérez">
+                  <label for="name">Nombre</label>
+                  <input id="name" type="text" name="name" placeholder="Ej: Juan Pérez" required>
             </div>
             <div class="input-group">
-                  <label>Edad</label>
-                  <input type="number" name="edad" placeholder="00">
+                  <label for="edad">Edad</label>
+                  <input id="edad" type="number" name="edad" required>
             </div>
       </div>
 
 
       <div class="input-group">
-      <label>Email</label>
-      <input type="text" name="email" placeholder="Ej: juan@correo.com">
+            <label for="email">Email</label>
+            <input id="email" type="text" name="email" placeholder="Ej: juan@correo.com" required>
       </div>
+      <div class="input-group">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="tel" name="telefono" placeholder="Solo números de 7 a 14 dígitos sin espacios, guiones ni paréntesis." pattern="\d{7,14}" required>
+      </div>
+
 
       <div class="col-3">
             <div class="input-group">
-                  <label for="asesor">Elegir Asesor</label>
-                  <select name="asesor">
+                  <label for="asesor">¿Quién es tu asesor?</label>
+                  <select id="asesor" name="asesor">
                   <?php 
                         
                         $asesores = get_plugin_options('cn_plugin_asesores');
@@ -39,14 +44,14 @@
 
             <div class="input-group">
                   <label for="sexo">Sexo</label>
-                  <select name="sexo">
+                  <select id="sexo" name="sexo">
                         <option value="hombre">Hombre</option>
                         <option value="mujer">Mujer</option>
                   </select>
             </div>
             <div class="input-group">
                   <label for="actividad-fisica">Actividad Física</label>
-                  <select name="actividad-fisica">
+                  <select id="actividad-fisica" name="actividad-fisica">
                         <option value="sedentario">Sedentario</option>
                         <option value="moderado">Moderado</option>
                         <option value="activo">Activo</option>
@@ -57,33 +62,34 @@
       <div class="col-wrap">
       
             <div class="input-group">
-                  <label>Altura</label>
-                  <input type="number" name="altura" placeholder="00">
+                  <label for="altura">Altura (en cm)</label>
+                  <input id="altura" type="number" name="altura"  required>
             </div>
       
             <div class="input-group">
-                  <label>Peso</label>
-                  <input type="number" name="peso" placeholder="00">
+                  <label for="peso">Peso (en kg)</label>
+                  <input id="peso" type="number" name="peso"  required>
+            </div>
+
+           
+            <div class="input-group">
+                  <label for="cuello">Cuello (en cm)</label>
+                  <input id="cuello" type="number" name="cuello"  required>
             </div>
 
             <div class="input-group">
-                  <label>Cintura</label>
-                  <input type="number" name="cintura" placeholder="00">
-            </div>
-            
-            <div class="input-group">
-                  <label>Cuello</label>
-                  <input type="number" name="cuello" placeholder="00">
+                  <label for="cintura">Cintura (en cm)</label>
+                  <input id="cintura" type="number" name="cintura"  required>
             </div>
 
             <div class="input-group">
-                  <label>Cadera</label>
-                  <input type="number" name="cadera" placeholder="00">
+                  <label for="cadera">Cadera (en cm)</label>
+                  <input id="cadera" class="error" type="number" name="cadera"  required>
             </div>
       </div>
 
       <div class="btn-container">
-            <button type="submit">Submit form</button>
+            <button type="submit">Comenzar Scanner</button>
       </div>
 
 </form>

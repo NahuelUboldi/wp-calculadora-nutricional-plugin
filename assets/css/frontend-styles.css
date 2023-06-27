@@ -26,6 +26,9 @@
   display: flex;
   flex-direction: column;
 }
+#enquiry_form .input-group label {
+  margin-bottom: 0.3rem;
+}
 #enquiry_form .input-group input {
   width: 100%;
 }
@@ -53,6 +56,7 @@
 #enquiry_form .btn-container {
   display: flex;
   justify-content: center;
+  padding-block: 1rem;
 }
 @media (min-width: 768px) {
   #enquiry_form .col-3,

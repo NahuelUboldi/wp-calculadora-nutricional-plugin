@@ -38,12 +38,12 @@ function load_jquery() {
 
 function enqueue_custom_scripts() {
       // Enqueue custom css for plugin
-      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css',[],1.0,'all');
+      wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/frontend-styles.css',[],1.2,'all');
 }
 
 function admin_style() {
       // Enqueue custom css for admin page
-      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css',[],1.0,'all');
+      wp_enqueue_style('admin-styles', MY_PLUGIN_URL.'assets/css/admin-styles.css',[],1.2,'all');
 }
 
 function setup_search() {
@@ -95,6 +95,10 @@ function fill_submission_columns($column, $post_id) {
                   echo esc_html(get_post_meta($post_id, 'email', true));
                   break;
 
+            case 'telefono':
+                  echo esc_html(get_post_meta($post_id, 'telefono', true));
+                  break;
+
             case 'asesor':
                   echo esc_html(get_post_meta($post_id, 'asesor', true));
                   break;
@@ -122,6 +126,7 @@ function custom_submission_columns($columns) {
             'cb' => $columns['cb'],
             'name' => __('Name', 'contact-plugin'),
             'email' => __('Email', 'contact-plugin'),
+            'telefono' => __('telefono', 'contact-plugin'),
             'asesor' => __('Asesor', 'contact-plugin'),
             'sexo' => __('Sexo', 'contact-plugin'),
             'edad' => __('Edad', 'contact-plugin'),
@@ -145,6 +150,7 @@ function display_submission() {
 
       $name = esc_html(get_post_meta(get_the_ID(), 'name', true));
       $email = esc_html(get_post_meta(get_the_ID(), 'email', true));
+      $telefono = esc_html(get_post_meta(get_the_ID(), 'telefono', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
       $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
@@ -172,6 +178,7 @@ function display_submission() {
                   <ul>
                         <li><strong>Nombre:</strong> {$name}</li>
                         <li><strong>Email:</strong> {$email}</li>
+                        <li><strong>Teléfono:</strong> {$telefono}</li>
                         <li><strong>Asesor elegido:</strong> {$asesor}</li>
                         <li><strong>Sexo:</strong> {$sexo}</li>
                         <li><strong>Edad:</strong> {$edad}</li>
@@ -260,6 +267,7 @@ function handle_enquiry($data) {
       // Set fields from the form
       $field_name = sanitize_text_field($params['name']);
       $field_email = sanitize_email($params['email']);
+      $field_telefono = sanitize_text_field($params['telefono']);
       
       $field_asesor = sanitize_text_field($params['asesor']);
 
@@ -358,6 +366,7 @@ function handle_enquiry($data) {
       // insert the custom post fields
       add_post_meta($post_id, 'name', $field_name);
       add_post_meta($post_id, 'email', $field_email);
+      add_post_meta($post_id, 'telefono', $field_telefono);
       add_post_meta($post_id, 'asesor', $field_asesor);
       add_post_meta($post_id, 'sexo', $field_sexo);
       add_post_meta($post_id, 'edad', $field_edad);
@@ -406,6 +415,8 @@ function handle_enquiry($data) {
 
       $subject = "{$field_name} ha completado la Calculadora Nutricional";
 
+      $email_content = file_get_contents(__DIR__ . '/templates/email/woman-email.php');
+
       $message = "
       <span class='preheader' style='color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;'>This is preheader text. Some clients will show this text as a preview.</span>
       <table role='presentation' border='0' cellpadding='0' cellspacing='0' class='body' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;' width='100%' bgcolor='#f6f6f6'>
@@ -435,6 +446,7 @@ function handle_enquiry($data) {
                         <ul>
                               <li><strong>Nombre:</strong> {$field_name}</li>
                               <li><strong>Email:</strong> {$field_email}</li>
+                              <li><strong>Teléfono:</strong> {$field_telefono}</li>
                               <li><strong>Asesor elegido:</strong> {$field_asesor}</li>
                               <li><strong>Sexo:</strong> {$field_sexo}</li>
                               <li><strong>Edad:</strong> {$field_edad}</li>
@@ -474,7 +486,7 @@ function handle_enquiry($data) {
       ";
 
       // send email
-      wp_mail($recipient_email, $subject, $message, $headers);
+      wp_mail($recipient_email, $subject, $email_content, $headers);
 
       
       if (get_plugin_options('cn_plugin_message')) {
