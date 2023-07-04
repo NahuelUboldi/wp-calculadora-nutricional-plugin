@@ -1,3 +1,87 @@
+<?php 
+
+	$values = [
+		"sexo" => "HOMBRE",
+		"nombre" => "NOMBRE",
+		"fecha" => "FECHA",
+		"edad" => "EDAD",
+		"estatura" => "ESTATURA",
+		"peso" => "PESO",
+		"imc" => 23.70,
+		"%-grasa" => 37.6,
+		"kg-grasa" => "KG GRASA",
+		"kg-musculo" => "KG MÚSCULO",
+		"proteina-diaria" => "PROTEÍNA DIARIA",
+		"calorias" => "CALORÍAS",
+		"cintura" => 89,
+	];
+
+	$images = [
+		"img-woman" => "http://team-hh.com/wp-content/uploads/2023/07/woman.png",
+		"img-men" => "http://team-hh.com/wp-content/uploads/2023/07/men.png"
+	];
+
+	$palette = [
+		"light-pink" => "#FED1EE",
+		"pink" => "#ff8ad8",
+		"light-blue" => "#b0d3ed",
+		"blue" => "#6e91db",
+		"optimo" => "#f3f222",
+		"normal" => "#94cd52",
+		"alto" => "#fec001",
+		"elevado" => "#fe0000",
+
+		"delgadez-sobrepeso" => "ffffc7",
+		"delgadez-obesidad" => "ffc1bb",
+		"obesidad-alta" => "fe8f82",
+	];
+	
+	$colors = [
+		"primary" => $palette["pink"],
+		"bg" => $palette["light-pink"],
+		"imc" => $palette["normal"],
+		"%-grasa" => $palette["optimo"],
+		"cintura" => $palette["normal"],
+	];
+
+		$genderImg = $images["img-woman"];
+
+		if( $values["sexo"] !== "MUJER" ) {
+			$colors["primary"] = $palette["blue"];
+			$colors["bg"] = $palette["light-blue"];
+			$genderImg = $images["img-men"];
+		}
+
+		if( $values["imc"] >= 40 ) {
+			$colors["imc"] = $palette["obesidad-alta"];
+		} else if ( $values["imc"] >= 30 && $values["imc"] <= 39.9) {
+			$colors["imc"] = $palette["delgadez-obesidad"];
+		} else if ( $values["imc"] >= 25 && $values["imc"] <= 29.9 ) {
+			$colors["imc"] = $palette["delgadez-sobrepeso"];
+		} else if ( $values["imc"] >= 10 && $values["imc"] <= 17.9 ) {
+			$colors["imc"] = $palette["delgadez-sobrepeso"];
+		} else if ( $values["imc"] <= 9.9) {
+			$colors["imc"] = $palette["delgadez-obesidad"];
+		}
+
+
+		if( $values["%-grasa"] >= 41 ) {
+			$colors["%-grasa"] = $palette["elevado"];
+		} else if ( $values["%-grasa"] >= 31 && $values["%-grasa"] <= 40 ) {
+			$colors["%-grasa"] = $palette["alto"];
+		} else if ( $values["%-grasa"] >= 21 && $values["%-grasa"] <= 30 ) {
+			$colors["%-grasa"] = $palette["normal"];
+		} 
+
+				if( $values["cintura"] >= 87 ) {
+			$colors["cintura"] = $palette["elevado"];
+		} else if ( $values["cintura"] >= 80 && $values["cintura"] <= 86 ) {
+			$colors["cintura"] = $palette["alto"];
+		}  
+
+	?>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -89,24 +173,73 @@
 	<tr>
 		<td>
 
+
+
 		<!--table start -->
 			<table cellpadding="0" cellspacing="0" border="0" align="center" role="presentation" style="max-width:600px;border:solid 1px black;background:white; margin:5px auto">
-							<tr style="background:#FED1EE;">
+							<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;color:white;">
+									<td class="block" align="left" valign="center" style="padding:1%; " width="20%">
+									</td>
+									<td class="block" align="left" valign="center" style="padding:1%;" width="80%">
+									 ESTUDIO CORPORAL VIRTUAL - Sexo <?= $values["sexo"] ?>
+									</td>
+							</tr>
+							<tr>
+									<td class="block" align="center" valign="center" style="padding:1%; " width="20%">
+										<img src="<?= $genderImg ?>" style="max-width:98%;height:90px;" />
+									</td>
+									<td class="block" align="left" valign="center" style="padding:1%;" width="80%">
+
+													<!--inner table start -->
+													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
+																	<tr style="">
+																				<td align="center" valign="center" >
+																					<p>
+																						Nombre: <?= $values["nombre"] ?>
+																					</p>
+																				</td>
+																				<td align="center" valign="center" >
+																					<p>
+																						Fecha: <?= $values["fecha"] ?>
+																					</p>
+																				</td>
+																	</tr>
+																	<tr style="">
+																				<td align="center" valign="center" >
+																					<p>
+																						Edad: <?= $values["edad"] ?>
+																					</p>
+																				</td>
+																				<td align="center" valign="center" >
+																					<p>
+																						Estatura: <?= $values["estatura"] ?>
+																					</p>
+																				</td>
+																	</tr>
+													</table>
+													<!--inner table end -->
+
+
+
+
+									</td>
+							</tr>
+							<tr style="background:<?= $colors["bg"] ?>;">
 										<td class="block" align="left" valign="center" style="padding:1%; " width="20%">
 													
 											<!--inner table start -->
 													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
-																	<tr style="border-bottom:solid 1px black;background:#FF8AD8;">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
 																				<td align="center" valign="center" >
 																					<p>
-																						Peso
+																						PESO
 																					</p>
 																				</td>
 																	</tr>
 																	<tr style="background:#fff;">
 																				<td align="center" valign="center" >
 																						<p>
-																								66,1
+																								<?= $values["peso"] ?>
 																						</p>
 																				</td>
 																	</tr>
@@ -115,22 +248,23 @@
 
 													<!--inner table start -->
 													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
-																	<tr style="border-bottom:solid 1px black;background:#FF8AD8;">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
 																				<td align="center" valign="center" >
 																					<p>
 																						IMC
 																					</p>
 																				</td>
 																	</tr>
-																	<tr style="background:#fff;">
+																	<tr style="background:<?= $colors["imc"] ?>;">
 																				<td align="center" valign="center" >
 																						<p>
-																								66,1
+																								<?= $values["imc"] ?>
 																						</p>
 																				</td>
 																	</tr>
 													</table>
 													<!--inner table end -->
+													
 
 												</td>
 												<td class="block" align="left" valign="center" style="padding:1%;" width="80%">
@@ -144,22 +278,22 @@
 
 		<!--table start -->
 			<table cellpadding="0" cellspacing="0" border="0" align="center" role="presentation" style="max-width:600px;border:solid 1px black;background:white; margin:5px auto">
-							<tr style="background:#FED1EE;">
+							<tr style="background:<?= $colors["bg"] ?>;">
 										<td class="block" align="left" valign="center" style="padding:1%; " width="20%">
 													
 											<!--inner table start -->
 													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
-																	<tr style="border-bottom:solid 1px black;background:#FF8AD8;">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
 																				<td align="center" valign="center" >
 																					<p>
-																						% Grasa
+																						% GRASA
 																					</p>
 																				</td>
 																	</tr>
-																	<tr style="background:#fff;">
+																	<tr style="background:<?= $colors["%-grasa"] ?>;">
 																				<td align="center" valign="center" >
 																						<p>
-																								66,1
+																								<?= $values["%-grasa"]?>
 																						</p>
 																				</td>
 																	</tr>
@@ -168,17 +302,17 @@
 
 													<!--inner table start -->
 													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
-																	<tr style="border-bottom:solid 1px black;background:#FF8AD8;">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
 																				<td align="center" valign="center" >
 																					<p>
-																						Kg Grasa
+																						KG GRASA
 																					</p>
 																				</td>
 																	</tr>
 																	<tr style="background:#fff;">
 																				<td align="center" valign="center" >
 																						<p>
-																								66,1
+																								<?= $values["kg-grasa"]?>
 																						</p>
 																				</td>
 																	</tr>
@@ -195,6 +329,117 @@
 							</tr>
 			</table>
 			<!--table end -->
+
+
+
+		<!--table start -->
+			<table cellpadding="0" cellspacing="0" border="0" align="center" role="presentation" style="max-width:600px;border:solid 1px black;background:white; margin:5px auto">
+							<tr style="background:<?= $colors["bg"] ?>;">
+										<td class="block" align="left" valign="center" style="padding:1%; " width="20%">
+													
+											<!--inner table start -->
+													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
+																				<td align="center" valign="center" >
+																					<p>
+																						KG MÚSCULO
+																					</p>
+																				</td>
+																	</tr>
+																	<tr style="background:#fff;">
+																				<td align="center" valign="center" >
+																						<p>
+																								<?= $values["kg-musculo"]?>
+																						</p>
+																				</td>
+																	</tr>
+													</table>
+													<!--inner table end -->
+
+													<!--inner table start -->
+													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
+																				<td align="center" valign="center" >
+																					<p>
+																						PROTEINA DIARIA
+																					</p>
+																				</td>
+																	</tr>
+																	<tr style="background:#fff;">
+																				<td align="center" valign="center" >
+																						<p>
+																								<?= $values["proteina-diaria"]?>
+																						</p>
+																				</td>
+																	</tr>
+													</table>
+													<!--inner table end -->
+
+
+
+
+										</td>
+												<td class="block" align="left" valign="center" style="padding:1%;" width="80%">
+																	<img src="http://team-hh.com/wp-content/uploads/2023/06/image-4.webp" width="98%" />
+										</td>
+							</tr>
+			</table>
+			<!--table end -->
+
+			<!--table start -->
+			<table cellpadding="0" cellspacing="0" border="0" align="center" role="presentation" style="max-width:600px;border:solid 1px black;background:white; margin:5px auto">
+							<tr style="background:<?= $colors["bg"] ?>;">
+										<td class="block" align="left" valign="center" style="padding:1%; " width="20%">
+													
+											<!--inner table start -->
+													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
+																				<td align="center" valign="center" >
+																					<p>
+																						CALORÍAS
+																					</p>
+																				</td>
+																	</tr>
+																	<tr style="background:#fff;">
+																				<td align="center" valign="center" >
+																						<p>
+																								<?= $values["calorias"]?>
+																						</p>
+																				</td>
+																	</tr>
+													</table>
+													<!--inner table end -->
+
+													<!--inner table start -->
+													<table cellpadding="0" cellspacing="0" border="1" align="center" role="presentation" style="width:97%;margin-bottom: 10px">
+																	<tr style="border-bottom:solid 1px black;background:<?= $colors["primary"]?>;">
+																				<td align="center" valign="center" >
+																					<p>
+																						CINTURA
+																					</p>
+																				</td>
+																	</tr>
+																	<tr style="background:<?= $colors["cintura"] ?>;">
+																				<td align="center" valign="center" >
+																						<p>
+																								<?= $values["cintura"]?>
+																						</p>
+																				</td>
+																	</tr>
+													</table>
+													<!--inner table end -->
+
+
+
+
+										</td>
+												<td class="block" align="left" valign="center" style="padding:1%;" width="80%">
+																	<img src="http://team-hh.com/wp-content/uploads/2023/06/image-1.webp" width="98%" />
+										</td>
+							</tr>
+			</table>
+			<!--table end -->
+
 
 
 		</td>
