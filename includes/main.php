@@ -152,6 +152,7 @@ function display_submission() {
       $email = esc_html(get_post_meta(get_the_ID(), 'email', true));
       $telefono = esc_html(get_post_meta(get_the_ID(), 'telefono', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
+      $objetivo = esc_html(get_post_meta(get_the_ID(), 'objetivo', true));
       $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
       $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
@@ -180,6 +181,7 @@ function display_submission() {
                         <li><strong>Email:</strong> {$email}</li>
                         <li><strong>Teléfono:</strong> {$telefono}</li>
                         <li><strong>Asesor elegido:</strong> {$asesor}</li>
+                        <li><strong>Asesor elegido:</strong> {$objetivo}</li>
                         <li><strong>Sexo:</strong> {$sexo}</li>
                         <li><strong>Edad:</strong> {$edad}</li>
                         <li><strong>Altura:</strong> {$altura}</li>
@@ -270,6 +272,7 @@ function handle_enquiry($data) {
       $field_telefono = sanitize_text_field($params['telefono']);
       
       $field_asesor = sanitize_text_field($params['asesor']);
+      $field_objetivo = sanitize_text_field($params['objetivo']);
 
       $field_sexo = sanitize_text_field($params['sexo']);
       $field_edad = intval(sanitize_text_field($params['edad']));
@@ -368,6 +371,7 @@ function handle_enquiry($data) {
       add_post_meta($post_id, 'email', $field_email);
       add_post_meta($post_id, 'telefono', $field_telefono);
       add_post_meta($post_id, 'asesor', $field_asesor);
+      add_post_meta($post_id, 'asesor', $field_objetivo);
       add_post_meta($post_id, 'sexo', $field_sexo);
       add_post_meta($post_id, 'edad', $field_edad);
       add_post_meta($post_id, 'altura', $field_altura);
@@ -497,6 +501,15 @@ function handle_enquiry($data) {
       }
       if (get_plugin_options('cn_plugin_redirection_page')) {
             $url = get_permalink(get_plugin_options('cn_plugin_redirect_url'));
+
+            $all_redirect = get_plugin_options('cn_plugin_redirect');
+      
+            foreach($all_asesores as $key => $value) {
+                  if($value["redirect"] == $field_objetivo) {
+                        $url = $value["redirect"];
+                  }
+            }
+
             $confirmation_message = "{$url}?nombre={$field_name}&asesor={$field_asesor}";
       }
       

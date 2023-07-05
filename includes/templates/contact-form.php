@@ -30,6 +30,19 @@
 
       <div class="col-3">
             <div class="input-group">
+                  <label for="asesor">Objetivo</label>
+                  <select id="asesor" name="asesor">
+                  <?php 
+                        
+                        $objetivos = get_plugin_options('cn_plugin_redirect');
+                                    
+                        foreach($objetivos as $objetivo) { ?>
+                              <option value="<?php echo $objetivo["objetivo"] ?>"><?php echo $objetivo["objetivo"] ?></option>
+                        <?php } ?>
+                  </select>
+            </div>
+
+            <div class="input-group">
                   <label for="asesor">¿Quién es tu asesor?</label>
                   <select id="asesor" name="asesor">
                   <?php 
