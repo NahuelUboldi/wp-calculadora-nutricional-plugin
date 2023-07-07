@@ -1,4 +1,6 @@
 <?php
+include "templates/admin-page.php";
+include "templates/email.php";
 
 if (!defined('ABSPATH')) {
       die('You cannot be here');
@@ -23,6 +25,21 @@ add_action('admin_init', 'setup_search');
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
 add_action('admin_enqueue_scripts', 'admin_style');
+
+function getImages() {
+      return [
+		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.jpg",
+		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
+		"men" => MY_PLUGIN_URL . "includes/templates/images/hombre.jpg",
+		"imc" => MY_PLUGIN_URL . "includes/templates/images/imc.jpg",
+		"calorias-men" => MY_PLUGIN_URL . "includes/templates/images/calorias-hombre.jpg",
+		"calorias-woman" => MY_PLUGIN_URL . "includes/templates/images/calorias-mujer.jpg",
+		"grasa-men" => MY_PLUGIN_URL . "includes/templates/images/grasa-hombre.jpg",
+		"grasa-woman" => MY_PLUGIN_URL . "includes/templates/images/grasa-mujer.jpg",
+		"proteinas-men" => MY_PLUGIN_URL . "includes/templates/images/proteinas-hombre.jpg",
+		"proteinas-woman" => MY_PLUGIN_URL . "includes/templates/images/proteinas-mujer.jpg",
+	];
+}
 
 function myplugin_query_vars( $qvars ) {
 	$qvars[] = 'nombre';
@@ -151,9 +168,9 @@ function display_submission() {
       $name = esc_html(get_post_meta(get_the_ID(), 'name', true));
       $email = esc_html(get_post_meta(get_the_ID(), 'email', true));
       $telefono = esc_html(get_post_meta(get_the_ID(), 'telefono', true));
+      $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
       $objetivo = esc_html(get_post_meta(get_the_ID(), 'objetivo', true));
-      $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
       $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
       $peso = esc_html(get_post_meta(get_the_ID(), 'peso', true));
@@ -169,45 +186,37 @@ function display_submission() {
       $kg_musculo = esc_html(get_post_meta(get_the_ID(), 'kg-musculo', true));
       $proteina_diaria = esc_html(get_post_meta(get_the_ID(), 'proteina-diaria', true));
 
+
+
 // metabolismo basal
 
 
-      echo "
-      <div id='submission-page'>
-            <div class='datos'>
-                  <h2>Datos ingresados por el usuario</h2>
-                  <ul>
-                        <li><strong>Nombre:</strong> {$name}</li>
-                        <li><strong>Email:</strong> {$email}</li>
-                        <li><strong>Teléfono:</strong> {$telefono}</li>
-                        <li><strong>Asesor elegido:</strong> {$asesor}</li>
-                        <li><strong>Asesor elegido:</strong> {$objetivo}</li>
-                        <li><strong>Sexo:</strong> {$sexo}</li>
-                        <li><strong>Edad:</strong> {$edad}</li>
-                        <li><strong>Altura:</strong> {$altura}</li>
-                        <li><strong>Peso:</strong> {$peso}</li>
-                        <li><strong>Cintura:</strong> {$cintura}</li>
-                        <li><strong>Cuello:</strong> {$cuello}</li>
-                        <li><strong>Cadera:</strong> {$cadera}</li>
-                        <li><strong>Actividad Física:</strong> {$actividad_fisica}</li>
-                  
-                  </ul>          
-            </div>
-            <div class='calculations'>
-                  <h2>Calculos realizados</h2>
-                  <ul>
-                        <li><strong>IMC:</strong> {$IMC}</li>
-                        <li><strong>Metabolismo basal:</strong> {$metab_basal}</li>
-                        <li><strong>Porcentaje de grasa:</strong> {$porcentaje_grasa}</li>
-                        <li><strong>Kg de grasa:</strong> {$kg_grasa}</li>
-                        <li><strong>Kg de músculo:</strong> {$kg_musculo}</li>
-                        <li><strong>Proteina diaria:</strong> {$proteina_diaria}</li>
-                  
-                  </ul> 
-            </div>
-   
-      </div>
-      ";
+	$values = [
+            "fecha" => "FECHA",
+            "nombre" => $name,
+            "email" => $email,
+            "telefono" => $telefono,
+            "sexo" => $sexo,
+            "asesor" => $asesor,
+            "objetivo" => $objetivo,
+            "edad" => $edad,
+            "estatura" => $altura,
+            "peso" => $peso,
+            "cintura" => $cintura,
+            "cuello" => $cuello,
+            "cadera" => $cadera,
+            "actividad_fisica" => $actividad_fisica,
+            "imc" => $IMC,
+            "metab_basal" => $metab_basal,
+            "%-grasa" => $porcentaje_grasa,
+            "kg-grasa" => $kg_grasa,
+            "kg-musculo" => $kg_musculo,
+            "proteina-diaria" => $proteina_diaria,
+            "calorias" => "CALORÍAS",
+	];
+
+	$images = getImages();
+      echo createAdminPage($values,$images);
  
 }
 
@@ -371,7 +380,7 @@ function handle_enquiry($data) {
       add_post_meta($post_id, 'email', $field_email);
       add_post_meta($post_id, 'telefono', $field_telefono);
       add_post_meta($post_id, 'asesor', $field_asesor);
-      add_post_meta($post_id, 'asesor', $field_objetivo);
+      add_post_meta($post_id, 'objetivo', $field_objetivo);
       add_post_meta($post_id, 'sexo', $field_sexo);
       add_post_meta($post_id, 'edad', $field_edad);
       add_post_meta($post_id, 'altura', $field_altura);
@@ -419,78 +428,35 @@ function handle_enquiry($data) {
 
       $subject = "{$field_name} ha completado la Calculadora Nutricional";
 
-      $email_content = file_get_contents(__DIR__ . '/templates/email/woman-email.php');
+      $values = [
+            "fecha" => "FECHA",
+            "nombre" => $field_name,
+            "email" => $field_email,
+            "telefono" => $field_telefono,
+            "sexo" => $field_sexo,
+            "asesor" => $field_asesor,
+            "objetivo" => $field_objetivo,
+            "edad" => $field_edad,
+            "estatura" => $field_altura,
+            "peso" => $field_peso,
+            "cintura" => $field_cintura,
+            "cuello" => $field_cuello,
+            "cadera" => $field_cadera,
+            "actividad_fisica" => $field_actividad_fisica,
+            "imc" => $field_IMC,
+            "metab_basal" => $field_metab_basal,
+            "%-grasa" => $field_porcentaje_grasa,
+            "kg-grasa" => $field_kg_grasa,
+            "kg-musculo" => $field_kg_musculo,
+            "proteina-diaria" => $field_proteina_diaria,
+            "calorias" => "CALORÍAS",
+	];
+      $images = getImages();
+      $message = createEmail($values,$images);
 
-      $message = "
-      <span class='preheader' style='color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;'>This is preheader text. Some clients will show this text as a preview.</span>
-      <table role='presentation' border='0' cellpadding='0' cellspacing='0' class='body' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;' width='100%' bgcolor='#f6f6f6'>
-      <tr>
-            <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>&nbsp;</td>
-            <td class='container' style='font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; max-width: 580px; padding: 10px; width: 580px; margin: 0 auto;' width='580' valign='top'>
-            <div class='content' style='box-sizing: border-box; display: block; margin: 0 auto; max-width: 580px; padding: 10px;'>
-
-            <!-- START CENTERED WHITE CONTAINER -->
-            <table role='presentation' class='main' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border-radius: 3px; width: 100%;' width='100%'>
-
-                  <!-- START MAIN CONTENT AREA -->
-                  <tr>
-                  <td class='wrapper' style='font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;' valign='top'>
-                  <table role='presentation' border='0' cellpadding='0' cellspacing='0' style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;' width='100%'>
-                        <tr>
-                        <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>
-                        
-                        <h1 style='font-family: sans-serif; font-size: 32px; font-weight: bold; margin: 0; margin-bottom: 15px;'>
-                        {$field_name} ha completado sus datos en la Calculadora Nutricional
-                        </h1>
-
-                        <p style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'>
-                        Estos son los datos ingresados:
-                        </p>
-
-                        <ul>
-                              <li><strong>Nombre:</strong> {$field_name}</li>
-                              <li><strong>Email:</strong> {$field_email}</li>
-                              <li><strong>Teléfono:</strong> {$field_telefono}</li>
-                              <li><strong>Asesor elegido:</strong> {$field_asesor}</li>
-                              <li><strong>Sexo:</strong> {$field_sexo}</li>
-                              <li><strong>Edad:</strong> {$field_edad}</li>
-                              <li><strong>Altura:</strong> {$field_altura}</li>
-                              <li><strong>Peso:</strong> {$field_peso}</li>
-                              <li><strong>Cintura:</strong> {$field_cintura}</li>
-                              <li><strong>Cuello:</strong> {$field_cuello}</li>
-                              <li><strong>Cadera:</strong> {$field_cadera}</li>
-                              <li><strong>Actividad Física:</strong> {$field_actividad_fisica}</li>
-                        
-                        </ul>          
-
-                        <p style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'>
-                        Con esos datos se han realizado los siguientes cálculos
-                        </p>
-                        <ul>
-                              <li><strong>IMC:</strong> {$field_IMC}</li>
-                              <li><strong>Metabolismo basal:</strong> {$field_metab_basal}</li>
-                              <li><strong>Porcentaje de grasa:</strong> {$field_porcentaje_grasa}</li>
-                              <li><strong>Kg de grasa:</strong> {$field_kg_grasa}</li>
-                              <li><strong>Kg de músculo:</strong> {$field_kg_musculo}</li>
-                              <li><strong>Proteina diaria:</strong> {$field_proteina_diaria}</li>
-                        
-                        </ul> 
-                        
-                        
-                        
-            <!-- END MAIN CONTENT AREA -->
-            </table>
-            <!-- END CENTERED WHITE CONTAINER -->
-
-            </div>
-            </td>
-            <td style='font-family: sans-serif; font-size: 14px; vertical-align: top;' valign='top'>&nbsp;</td>
-      </tr>
-      </table>
-      ";
 
       // send email
-      wp_mail($recipient_email, $subject, $email_content, $headers);
+      wp_mail($recipient_email, $subject, $message, $headers);
 
       
       if (get_plugin_options('cn_plugin_message')) {
@@ -500,13 +466,13 @@ function handle_enquiry($data) {
             $confirmation_message = str_replace('{name}', $field_name, $confirmation_message);
       }
       if (get_plugin_options('cn_plugin_redirection_page')) {
-            $url = get_permalink(get_plugin_options('cn_plugin_redirect_url'));
 
-            $all_redirect = get_plugin_options('cn_plugin_redirect');
+            $all_objetivos = get_plugin_options('cn_plugin_redirect');
       
-            foreach($all_asesores as $key => $value) {
-                  if($value["redirect"] == $field_objetivo) {
-                        $url = $value["redirect"];
+            foreach($all_objetivos as $key => $value) {
+
+                  if($value["objetivo"] == $field_objetivo) {
+                        $url = get_permalink( $value["objetivo_redirect"] );
                   }
             }
 

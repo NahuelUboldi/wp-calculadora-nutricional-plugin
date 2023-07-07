@@ -1,4 +1,31 @@
 <?php if( get_plugin_options('cn_plugin_active') ):?>
+<?php
+
+//  $all_objetivos = get_plugin_options('cn_plugin_redirect');
+
+//  foreach($all_objetivos as $key => $value) {
+      
+//             echo $key;
+//             echo $value["objetivo"];
+//             echo get_permalink( $value["objetivo_redirect"] );
+      
+// }
+//  var_dump($obj)
+
+
+//  array(2) { 
+//       [0]=> array(3) { 
+//             ["_type"]=> string(1) "_" 
+//             ["objetivo"]=> string(13) "bajar de peso" 
+//             ["objetivo_redirect"]=> int(91) 
+//       } 
+//       [1]=> array(3) { 
+//             ["_type"]=> string(1) "_" 
+//             ["objetivo"]=> string(13) "subir de peso" 
+//             ["objetivo_redirect"]=> int(89) 
+//       } 
+// }
+?>
 
 <div id="form-success"></div>
 <div id="form-error"></div>
@@ -30,8 +57,8 @@
 
       <div class="col-3">
             <div class="input-group">
-                  <label for="asesor">Objetivo</label>
-                  <select id="asesor" name="asesor">
+                  <label for="objetivo">Objetivo</label>
+                  <select id="objetivo" name="objetivo">
                   <?php 
                         
                         $objetivos = get_plugin_options('cn_plugin_redirect');

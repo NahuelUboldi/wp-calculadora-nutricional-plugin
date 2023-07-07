@@ -48,19 +48,9 @@ function create_options_page()
                         ->set_attribute('placeholder', 'eg. your@email.com')
                         ->set_help_text('El correo que se utilizará para recibir los envíos si no hay ningún asesor definido'),
 
-                  // Field::make('checkbox', 'cn_plugin_redirection_page', __('Utilizar página de redirección')),
-                  // Field::make('select', 'cn_plugin_redirect_url', 'Página de redirección')
-                  //       ->set_conditional_logic( array(
-                  //             array(
-                  //                   'field' => 'cn_plugin_redirection_page',
-                  //                   'value' => true,
-                  //             )
-                  //       ) )
-                  //       ->add_options(get_all_pages())
-                  //       ->set_help_text('Elegir página para redirecionar después del envío. Para recuperar los parametros [nombre] y [asesor], hay que instalar el plugin "URL Params" e insertar el código [urlparam param="parametro" /] en el lugar del texto donde se quiera hacer referencia a dichos parámetros.'),
 
-                  Field::make('checkbox', 'cn_plugin_redirection_page', __('Utilizar página de redirección')),
-                  Field::make( 'complex', 'cn_plugin_redirect', __( 'Página de redirección' ) )
+                  Field::make('checkbox', 'cn_plugin_redirection_page', __('Utilizar páginas de redirección')),
+                  Field::make( 'complex', 'cn_plugin_redirect', __( 'Páginas de redirección' ) )
                         ->set_conditional_logic( array(
                               array(
                                     'field' => 'cn_plugin_redirection_page',
@@ -72,7 +62,7 @@ function create_options_page()
                               Field::make( 'select', 'objetivo_redirect', __( 'Página de redirección' ) )
                                     ->add_options(get_all_pages())
                         ) )
-                        ->set_help_text('Elegir página para redirecionar después del envío. Para recuperar los parametros [nombre] y [asesor], hay que instalar el plugin "URL Params" e insertar el código [urlparam param="parametro" /] en el lugar del texto donde se quiera hacer referencia a dichos parámetros.'),
+                        ->set_help_text('Elegir las páginas para redirecionar después del envío según los objetivos. Para recuperar los parametros [nombre] y [asesor], hay que instalar el plugin "URL Params" e insertar el código [urlparam param="parametro" /] en el lugar del texto donde se quiera hacer referencia a dichos parámetros.'),
                   
                   Field::make('textarea', 'cn_plugin_message', __('Mensaje de Confirmación'))
                         ->set_attribute('placeholder', 'Enter confirmation message')
