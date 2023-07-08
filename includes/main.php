@@ -192,7 +192,7 @@ function display_submission() {
 
 
 	$values = [
-            "fecha" => "FECHA",
+            "fecha" => get_the_date(),
             "nombre" => $name,
             "email" => $email,
             "telefono" => $telefono,
@@ -212,7 +212,7 @@ function display_submission() {
             "kg-grasa" => $kg_grasa,
             "kg-musculo" => $kg_musculo,
             "proteina-diaria" => $proteina_diaria,
-            "calorias" => "CALORÍAS",
+            "calorias" => $metab_basal,
 	];
 
 	$images = getImages();
@@ -291,6 +291,26 @@ function handle_enquiry($data) {
       $field_cuello = intval(sanitize_text_field($params['cuello']));
       $field_cadera = intval(sanitize_text_field($params['cadera']));
       $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']);
+
+      // Validations before calculations and pushing to db
+      if ($field_edad < 0 || $field_edad > 125) {
+            return new WP_Rest_Response('Mensaje no enviado, la edad no está dentro del rango permitido', 422);
+      }
+      if ($field_altura < 50 || $field_altura > 230) {
+            return new WP_Rest_Response('Mensaje no enviado, la altura no está dentro del rango permitido', 422);
+      }
+      if ($field_peso < 45 || $field_peso > 200) {
+            return new WP_Rest_Response('Mensaje no enviado, el peso no está dentro del rango permitido', 422);
+      }      
+      if ($field_cuello < 20 || $field_cuello > 50) {
+            return new WP_Rest_Response('Mensaje no enviado, el cuello no está dentro del rango permitido', 422);
+      }
+      if ($field_cintura < 40 || $field_cintura > 250) {
+            return new WP_Rest_Response('Mensaje no enviado, la cintura no está dentro del rango permitido', 422);
+      }      
+      if ($field_cadera < 40 || $field_cadera > 250) {
+            return new WP_Rest_Response('Mensaje no enviado, la cadera no está dentro del rango permitido', 422);
+      }
 
       /////////////////
       // CALCULATIONS
@@ -429,7 +449,7 @@ function handle_enquiry($data) {
       $subject = "{$field_name} ha completado la Calculadora Nutricional";
 
       $values = [
-            "fecha" => "FECHA",
+            "fecha" => current_time('d-m-Y'),
             "nombre" => $field_name,
             "email" => $field_email,
             "telefono" => $field_telefono,
@@ -449,7 +469,7 @@ function handle_enquiry($data) {
             "kg-grasa" => $field_kg_grasa,
             "kg-musculo" => $field_kg_musculo,
             "proteina-diaria" => $field_proteina_diaria,
-            "calorias" => "CALORÍAS",
+            "calorias" => $field_metab_basal,
 	];
       $images = getImages();
       $message = createEmail($values,$images);

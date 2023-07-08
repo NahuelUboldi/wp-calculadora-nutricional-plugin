@@ -1,31 +1,4 @@
 <?php if( get_plugin_options('cn_plugin_active') ):?>
-<?php
-
-//  $all_objetivos = get_plugin_options('cn_plugin_redirect');
-
-//  foreach($all_objetivos as $key => $value) {
-      
-//             echo $key;
-//             echo $value["objetivo"];
-//             echo get_permalink( $value["objetivo_redirect"] );
-      
-// }
-//  var_dump($obj)
-
-
-//  array(2) { 
-//       [0]=> array(3) { 
-//             ["_type"]=> string(1) "_" 
-//             ["objetivo"]=> string(13) "bajar de peso" 
-//             ["objetivo_redirect"]=> int(91) 
-//       } 
-//       [1]=> array(3) { 
-//             ["_type"]=> string(1) "_" 
-//             ["objetivo"]=> string(13) "subir de peso" 
-//             ["objetivo_redirect"]=> int(89) 
-//       } 
-// }
-?>
 
 <div id="form-success"></div>
 <div id="form-error"></div>
@@ -40,7 +13,7 @@
             </div>
             <div class="input-group">
                   <label for="edad">Edad</label>
-                  <input id="edad" type="number" name="edad" required>
+                  <input id="edad" type="number" name="edad" min="0" max="125" required>
             </div>
       </div>
 
@@ -81,7 +54,8 @@
                         <?php } ?>
                   </select>
             </div>
-
+      </div>
+      <div class="col-3">
             <div class="input-group">
                   <label for="sexo">Sexo</label>
                   <select id="sexo" name="sexo">
@@ -100,31 +74,31 @@
       </div>
 
       <div class="col-wrap">
-      
+
             <div class="input-group">
-                  <label for="altura">Altura (en cm)</label>
-                  <input id="altura" type="number" name="altura"  required>
+                  <label for="altura">Altura (en cm) <br> Ej: 170</label>
+                  <input id="altura" type="number" name="altura" min="50" max="230" required>
             </div>
       
             <div class="input-group">
-                  <label for="peso">Peso (en kg)</label>
-                  <input id="peso" type="number" name="peso"  required>
+                  <label for="peso">Peso (en kg) <br>  Ej: 70</label>
+                  <input id="peso" type="number" name="peso" min="45" max="200" required>
             </div>
 
            
             <div class="input-group">
-                  <label for="cuello">Cuello (en cm)</label>
-                  <input id="cuello" type="number" name="cuello"  required>
+                  <label for="cuello">Cuello (en cm) <br>  Ej: 34</label>
+                  <input id="cuello" type="number" name="cuello" min="20" max="50" required>
             </div>
 
             <div class="input-group">
-                  <label for="cintura">Cintura (en cm)</label>
-                  <input id="cintura" type="number" name="cintura"  required>
+                  <label for="cintura">Cintura (en cm) <br>  Ej: 90</label>
+                  <input id="cintura" type="number" name="cintura" min="40" max="250" required>
             </div>
 
             <div class="input-group">
-                  <label for="cadera">Cadera (en cm)</label>
-                  <input id="cadera" class="error" type="number" name="cadera"  required>
+                  <label for="cadera">Cadera (en cm) <br> Ej: 70</label>
+                  <input id="cadera" class="error" type="number" name="cadera" min="40" max="250" required>
             </div>
       </div>
 

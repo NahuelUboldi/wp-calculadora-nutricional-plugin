@@ -118,7 +118,7 @@ function createAdminPage($values,$images) {
             </div>
    
       </div>
-			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;border:solid 1px black;background:white; margin:5px auto'>
+			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
 							<tr style='border-bottom:solid 1px black;background:{$colors["primary"]};color:white;'>
 									<td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
 									</td>
@@ -217,7 +217,7 @@ function createAdminPage($values,$images) {
 
 
 		<!--table start -->
-			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;border:solid 1px black;background:white; margin:5px auto'>
+			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
 							<tr style='background:{$colors["bg"]};'>
 										<td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
 													
@@ -273,7 +273,7 @@ function createAdminPage($values,$images) {
 
 
 		<!--table start -->
-			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;border:solid 1px black;background:white; margin:5px auto'>
+			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
 							<tr style='background:{$colors["bg"]};'>
 										<td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
 													
@@ -327,7 +327,7 @@ function createAdminPage($values,$images) {
 			<!--table end -->
 
 			<!--table start -->
-			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;border:solid 1px black;background:white; margin:5px auto'>
+			<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
 							<tr style='background:{$colors["bg"]};'>
 										<td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
 													

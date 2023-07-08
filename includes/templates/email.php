@@ -101,7 +101,7 @@ function createEmail($values,$images) {
 		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
 		a img {border:none;}
 		.image_fix {display:block;}
-		p {margin: 0;padding:5px;font-weight:bold;font-size:1.2rem;}
+		p {margin: 0;padding:5px;font-weight:bold;}
 		h1, h2, h3, h4, h5, h6 {color: black !important;}
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
 		h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
