@@ -1,6 +1,7 @@
 <?php
 include "templates/admin-page.php";
 include "templates/email.php";
+include "templates/recomendations-email.php";
 
 if (!defined('ABSPATH')) {
       die('You cannot be here');
@@ -28,7 +29,7 @@ add_action('admin_enqueue_scripts', 'admin_style');
 
 function getImages() {
       return [
-		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.jpg",
+		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
 		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
 		"men" => MY_PLUGIN_URL . "includes/templates/images/hombre.jpg",
 		"imc" => MY_PLUGIN_URL . "includes/templates/images/imc.jpg",
@@ -38,6 +39,7 @@ function getImages() {
 		"grasa-woman" => MY_PLUGIN_URL . "includes/templates/images/grasa-mujer.jpg",
 		"proteinas-men" => MY_PLUGIN_URL . "includes/templates/images/proteinas-hombre.jpg",
 		"proteinas-woman" => MY_PLUGIN_URL . "includes/templates/images/proteinas-mujer.jpg",
+		"recomendaciones-banner" => MY_PLUGIN_URL . "includes/templates/images/recomendaciones-banner.jpg",
 	];
 }
 
@@ -171,6 +173,11 @@ function display_submission() {
       $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
       $objetivo = esc_html(get_post_meta(get_the_ID(), 'objetivo', true));
+
+      // agregar objetivo secundario
+      $objetivo_secundario = esc_html(get_post_meta(get_the_ID(), 'objetivo-secundario', true));
+
+
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
       $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
       $peso = esc_html(get_post_meta(get_the_ID(), 'peso', true));
@@ -199,6 +206,8 @@ function display_submission() {
             "sexo" => $sexo,
             "asesor" => $asesor,
             "objetivo" => $objetivo,
+            // agregar objetivo secundario
+            "objetivo-secundario" => $objetivo_secundario,
             "edad" => $edad,
             "estatura" => $altura,
             "peso" => $peso,
@@ -266,7 +275,7 @@ function create_rest_endpoint() {
 
 
 function handle_enquiry($data) {
-          /////////////////
+      /////////////////
       // SATINIZATION OF DATA
       /////////////////
       
@@ -282,6 +291,10 @@ function handle_enquiry($data) {
       
       $field_asesor = sanitize_text_field($params['asesor']);
       $field_objetivo = sanitize_text_field($params['objetivo']);
+
+      // agregar objetivo secundario
+      $field_objetivo_secundario = sanitize_text_field($params['objetivo-secundario']);
+
 
       $field_sexo = sanitize_text_field($params['sexo']);
       $field_edad = intval(sanitize_text_field($params['edad']));
@@ -401,6 +414,9 @@ function handle_enquiry($data) {
       add_post_meta($post_id, 'telefono', $field_telefono);
       add_post_meta($post_id, 'asesor', $field_asesor);
       add_post_meta($post_id, 'objetivo', $field_objetivo);
+      //agregar objetivo secundario
+      add_post_meta($post_id, 'objetivo-secundario', $field_objetivo_secundario);
+
       add_post_meta($post_id, 'sexo', $field_sexo);
       add_post_meta($post_id, 'edad', $field_edad);
       add_post_meta($post_id, 'altura', $field_altura);
@@ -446,8 +462,7 @@ function handle_enquiry($data) {
       $headers[] = "Reply-to: {$field_name} <{$field_email}>";
       $headers[] = "Content-Type: text/html";
 
-      $subject = "{$field_name} ha completado la Calculadora Nutricional";
-
+      
       $values = [
             "fecha" => current_time('d-m-Y'),
             "nombre" => $field_name,
@@ -456,6 +471,7 @@ function handle_enquiry($data) {
             "sexo" => $field_sexo,
             "asesor" => $field_asesor,
             "objetivo" => $field_objetivo,
+            "objetivo-secundario" => $field_objetivo_secundario,
             "edad" => $field_edad,
             "estatura" => $field_altura,
             "peso" => $field_peso,
@@ -472,12 +488,18 @@ function handle_enquiry($data) {
             "calorias" => $field_metab_basal,
 	];
       $images = getImages();
+      
+      // send email with report
+      $subject = "Scanner corporal completado por {$field_name} | Reporte";
       $message = createEmail($values,$images);
-
-
-      // send email
       wp_mail($recipient_email, $subject, $message, $headers);
 
+      
+      // send email with recomendations 
+      $recomendations_subject = "Recomendaciones para {$field_name} según los objetivos elegidos";
+      $recomendations_message = createRecomendationsEmail($values,$images);
+      wp_mail($recipient_email, $recomendations_subject, $recomendations_message, $headers);
+      
       
       if (get_plugin_options('cn_plugin_message')) {
 

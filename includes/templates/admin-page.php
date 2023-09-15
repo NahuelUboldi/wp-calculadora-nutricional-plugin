@@ -93,6 +93,7 @@ function createAdminPage($values,$images) {
                         <li><strong>Teléfono:</strong> {$values['telefono']}</li>
                         <li><strong>Asesor elegido:</strong> {$values['asesor']}</li>
                         <li><strong>Objetivo elegido:</strong> {$values['objetivo']}</li>
+																								<li><strong>Objetivo secundario:</strong> {$values['objetivo-secundario']}</li>
                         <li><strong>Sexo:</strong> {$values['sexo']}</li>
                         <li><strong>Edad:</strong> {$values['edad']}</li>
                         <li><strong>Altura:</strong> {$values['estatura']}</li>
