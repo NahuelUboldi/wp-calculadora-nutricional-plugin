@@ -1,6 +1,32 @@
 <?php 
 function createEmail($values,$images) {
+
+
+	$nombre = $values['nombre'];
+	$fecha = $values['fecha'];
+	$edad = $values['edad'];
+	$estatura = $values['estatura'];
 	
+
+$palette = [
+	"cream" => '#e1ccad',
+	"purple" => '#774978',
+	"light-purple" => '#8c6292',
+	"light-blue" => '#25a6ce',
+	"pink" => '#fa7576',
+	"red" => '#ff5754',
+	"orange" => '#f85b00',
+	"yellow" => '#fabf00',
+	"green" => '#82d55f',
+];
+	
+$colors = [
+	"bg-light" => $palette["cream"],
+	"bg-dark" => $palette["purple"]
+];
+
+/*
+
 	$palette = [
 		"light-pink" => "#FED1EE",
 		"pink" => "#ff8ad8",
@@ -84,6 +110,7 @@ function createEmail($values,$images) {
 				$colors["cintura"] = $palette["alto"];
 			}  
 		}
+*/
 
 	return "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 

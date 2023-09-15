@@ -1,6 +1,37 @@
 <?php if( get_plugin_options('cn_plugin_active') ):?>
 
 <?
+
+// "asesor" => $field_asesor,
+// "objetivo" => $field_objetivo,
+// "objetivo-secundario" => $field_objetivo_secundario,
+// "peso" => $field_peso,
+// "cintura" => $field_cintura,
+// "cuello" => $field_cuello,
+// "cadera" => $field_cadera,
+// "actividad_fisica" => $field_actividad_fisica,
+// "imc" => $field_IMC,
+// "metab_basal" => $field_metab_basal,
+// "%-grasa" => $field_porcentaje_grasa,
+// "kg-grasa" => $field_kg_grasa,
+// "kg-musculo" => $field_kg_musculo,
+// "proteina-diaria" => $field_proteina_diaria,
+// "calorias" => $field_metab_basal,
+
+$valor = "hombre";
+
+$nombre = "roberto";
+$fecha = "17-02-1945";
+$edad = "45";
+$estatura = "145";
+$sexo = $values["sexo"] ?? "mujer";
+$peso = $values["peso"] ?? "79";
+$imc = $values["imc"] ?? 42;
+$grasa_porcentaje = $values["%-grasa"] ?? 19;
+$grasa_kg = $values["kg-grasa"] ?? 8;
+
+$rounded_borders = "border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;";
+
 $images = [
 		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
 		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
@@ -15,157 +46,135 @@ $images = [
 		"recomendaciones-banner" => MY_PLUGIN_URL . "includes/templates/images/recomendaciones-banner.jpg",
 	];
 $palette = [
-		"light-pink" => "#FED1EE",
-		"pink" => "#ff8ad8",
-		"light-blue" => "#b0d3ed",
-		"blue" => "#6e91db",
-		"optimo" => "#f3f222",
-		"normal" => "#94cd52",
-		"alto" => "#fec001",
-		"elevado" => "#fe0000",
-
-		"delgadez-sobrepeso" => "#ffffc7",
-		"delgadez-obesidad" => "#ffc1bb",
-		"obesidad-alta" => "#fe8f82",
-
-            "bg-cream" => '#e1ccad',
-            "bg-purple" => '#764979'
-	];
+	"cream" => '#e1ccad',
+	"purple" => '#774978',
+	"light-purple" => '#8c6292',
+	"light-blue" => '#25a6ce',
+	"pink" => '#fa7576',
+	"red" => '#ff5754',
+	"orange" => '#f85b00',
+	"yellow" => '#fabf00',
+	"green" => '#82d55f',
+      "gray" => '#eee'
+];
 	
 $colors = [
-      "primary" => $palette["pink"],
-      "bg" => $palette["light-pink"],
-      "imc" => $palette["normal"],
-      "%-grasa" => $palette["optimo"],
-      "cintura" => $palette["normal"],
-      "bg-light" => $palette["bg-cream"],
-      "bg-dark" => $palette["bg-purple"]
+	"bg-light" => $palette["cream"],
+	"bg-dark" => $palette["purple"],
+      "mujer" => $palette["pink"],
+      "hombre" => $palette["light-blue"],
+      "red" => $palette["red"],
+	"orange" => $palette["orange"],
+	"yellow" => $palette["yellow"],
+	"green" => $palette["green"],
+	"gray" => $palette["gray"],
 ];
 
-$genderImg = $images["woman"];
-$imcImg = $images["imc"];
-$caloriasImg = $images["calorias-woman"];
-$grasaImg = $images["grasa-woman"];
-$proteinasImg = $images["proteinas-woman"];
+
+function createList($array,$imc) {
+      $result = "";
+
+      foreach ($array as $key => $value) {
+            $min = $value[0];
+            $max = $value[1];
+            $text = $value[2];
+            $color = $value[3];
+            if($imc >= $min && $imc <= $max) {
+                  $result .= "
+                  <li style='color:white'>
+                        <span style='color:{$color};-webkit-text-stroke-width: 1.5px;-webkit-text-stroke-color: white;'>► ⬤ </span>
+                        <span style='color:white'>{$text} </span>
+                  </li>";
+            } else {
+                  $result .= "
+                  <li style='color:white;opacity:0.5;'>
+                        <span style='visibility:hidden;'> ► </span>
+                        ⬤
+                        {$text}
+                  </li>";
+            }
+      }
+
+      return $result;
+  }
+function createColor($array,$imc) {
+      $result = "";
+
+      foreach ($array as $key => $value) {
+            $min = $value[0];
+            $max = $value[1];
+            $text = $value[2];
+            $color = $value[3];
+            if($imc >= $min && $imc <= $max) {
+                  $result = $color;
+            }
+      }
+
+      return $result;
+}
+
+$imc_values = [
+      [0,9.9, "Menos de diez: DELGADEZ EXTREMA",$colors["orange"]],
+      [10,17.9, "10 a 17: BAJO PESO",$colors["yellow"]] ,
+      [18,24.9, "18 a 24: PESO ADECUADO PARA TU ESTATURA",$colors["green"]],
+      [25,29.9, "25 a 29: SOBREPESO",$colors["yellow"]],
+      [30,34.9, "30 a 35: OBESIDAD I",$colors["orange"]],
+      [35,40.9, "35 a 40: OBESIDAD II",$colors["orange"]],
+      [40,INF, "40 o más: OBESIDAD III",$colors["red"]]
+];
+
+$grasa_porcentaje_values = [
+      [0,9.9, "ÓPTIMO",$colors["yellow"]],
+      [10,19.9, "NORMAL",$colors["green"]] ,
+      [20,25.9, "ALTO",$colors["orange"]],
+      [26,INF, "ELEVADO",$colors["red"]],
+
+];
+
+$imc_list = createList($imc_values,$imc);
+$imc_color = createColor($imc_values,$imc);
+$grasa_porcentaje_list = createList($grasa_porcentaje_values,$grasa_porcentaje);
+$grasa_porcentaje_color = createColor($grasa_porcentaje_values,$grasa_porcentaje);
 
 echo "
-<h1>RECOMENDATIONS EMAIL</h1><br>
-
-<!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;border-radius:1rem; border-collapse: separate;border-spacing: 0;
-  overflow: hidden;'>
-      <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:0%;border:none !important;line-height: 0%;' width='100%' border='0'>
-                  <img src='{$images['recomendaciones-banner']}' style='width:100%;' />
-            </td>
-
-      </tr>
-      
-</table>
-<!--table end -->
-
-<!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
-      <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
-                  <h3 style='font-size:1.4rem;'>BAJAR DE PESO // PERDER GRASA // TONIFICAR</h3>
-            </td>
-
-      </tr>
-      <tr border='0' style='background:white;'>
-            <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem;'>Recomendaciones: </p>
-                  
-                  <ul>
-                  <li>PLAN ECONOMICO: 2 batidos y 1 Te</li>
-                  <li>PLAN BASICO: 2 batidos, 1 te y 1 bebida de proteína. (que se destaque este con una estrellita o algo)</li>
-                  <li>PLAN AVANZADO: 2 batidos, 1 te, 1 bebida de proteína, 1 aloe y 1 fibra de manzana</li>
-                  </ul>
-
-            </td>
-
-      </tr>
-     
-</table>
-<!--table end -->
-
-<!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
-      <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-light']};'>Objetivo Secundario: </p>
-                  <h3 style='font-size:1.4rem;'>Cuidar de mi piel y retrasar el envejecimiento</h3>
-            </td>
-
-      </tr>
-      <tr border='0' style='background:white;'>
-            <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem;'>Recomendaciones: </p>
-                  
-                 <p>⭐️RECOMENDADOS: Linea SKIN, Linea HerbalAloe, Colágeno, te, Batido y Proteína</p>
-
-            </td>
-
-      </tr>
-     
-</table>
-<!--table end -->
-
-<!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;background:{$colors['bg-dark']};margin:5px auto;border-radius:1rem; border-collapse: separate;border-spacing: 0;
-  overflow: hidden;'>
-      <tr border='0' style='border:none !important'>
-            <td class='block' align='center' valign='center' style='padding:40px 20px;border:none !important;line-height: 0%;' width='100%' border='0'>
-                  <img src='{$images['logo']}' style='height:50px' />
-            </td>
-
-      </tr>
-      
-</table>
-<!--table end -->
-
 <br><br>";
 
 echo "
 <h1>CALCULATIONS EMAIL</h1><br>
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
-      <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};color:white;'>
-            <td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;font-weight:bold;font-size:1.5rem;' width='80%'>
-                  ESTUDIO CORPORAL VIRTUAL - Sexo {$SEXO}
+
+<!-- USER DATA TABLE -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;background:{$colors["bg-dark"]};color:white; margin:5px auto;{$rounded_borders}'>
+      <tr style='border:none;'>
+            <td class='block' align='center' valign='center' style='padding:10px;font-weight:bold;font-size:1.5rem;border:none;'>
+                  Estudio Corporal Virtual
             </td>
       </tr>
       <tr>
-            <td class='block' align='center' valign='center' style='padding:1%; ' width='20%'>
-                  <img src='{$genderImg}' style='max-width:98%;height:90px;' />
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
+            <td class='block' align='left' valign='center' style='padding:0px 10%;' >
 
                   <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style=''>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          Nombre: {$NOMBRE}
+                  <table border='0' align='center' role='presentation' style='width:100%;margin-bottom: 10px;border-collapse: separate;border-spacing: 15px;border:none;'>
+                        <tr style='border:none;'>
+                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                                          Nombre: {$nombre}
                                     </p>
                               </td>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          Fecha: {$FECHA}
+                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                                          Fecha: {$fecha}
                                     </p>
                               </td>
                         </tr>
-                        <tr style=''>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          Edad: {$EDAD}
+                        <tr style='border:none;'>
+                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                                          Edad: {$edad}
                                     </p>
                               </td>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          Estatura: {$ESTATURA}
+                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                                          Estatura: {$estatura}
                                     </p>
                               </td>
                         </tr>
@@ -175,109 +184,116 @@ echo "
 
             </td>
       </tr>
-      <tr style='background:{$colors["bg"]};'>
-            <td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
-                              
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          PESO
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:#fff;'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$PESO}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
-
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          IMC
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:{$colors["imc"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$values["imc"]}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
-                        
-
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-                  <img src='{$imcImg}' width='98%' />
-            </td>
-      </tr>
+      
 </table>
 <!--table end -->
 
 
-
+<!--PESO / IMC TABLE -->
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
-      <tr style='background:{$colors["bg"]};'>
-            <td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
-                              
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          % GRASA
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:{$colors["%-grasa"]};'>
-                              <td align='center' valign='center' >
-                                          <p style='font-weight:bold;font-size:1.2rem'>
-                                                      {$values["%-grasa"]}
-                                          </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;{$rounded_borders}background:{$colors["$sexo"]}; margin:5px auto'>
+  <tr style='border:none;;'>
+    <td class='block' align='left' valign='center' style='padding:1%; border:none; ' width='20%'>
+                      
+      <!--inner table start -->
+      <table border='1' align='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border-bottom:solid 1px black;'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              PESO
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              {$peso} Kg.
+            </p>
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
 
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          KG GRASA
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:#fff;'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                                {$values["kg-grasa"]}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+      <!--inner table start -->
+      <table border='1' align='center' valign='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border-bottom:solid 1px black;'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              IMC
+            </p>
+          </td>
+        </tr>
+        <tr style='background:{$imc_color}'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+              {$imc}
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
 
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-                  <img src='{$grasaImg}' width='98%' />
-            </td>
-      </tr>
+    </td>
+    <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
+      <ul style='list-style:none;font-weight:bold;margin:0 20px'>
+      {$imc_list}
+      </ul>
+    </td>
+  </tr>
 </table>
 <!--table end -->
 
+<!--GRASA TABLE -->
+<!--table start -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;{$rounded_borders}background:{$colors['bg-light']}; margin:5px auto'>
+  <tr style='border:none;;'>
+    <td class='block' align='left' valign='center' style='padding:1%; border:none; ' width='20%'>
+                      
+      <!--inner table start -->
+      <table border='1' align='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border-bottom:solid 1px black;'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              KG GRASA
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              {$grasa_kg} Kg.
+            </p>
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
+
+      <!--inner table start -->
+      <table border='1' align='center' valign='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border-bottom:solid 1px black;'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+              GRASA
+            </p>
+          </td>
+        </tr>
+        <tr style='background:{$grasa_porcentaje_color}'>
+          <td align='center' valign='center' >
+            <p style='font-weight:bold;font-size:1.2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+              {$grasa_porcentaje}
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
+
+    </td>
+    <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
+      <ul style='list-style:none;font-weight:bold;margin:0 20px'>
+      {$grasa_porcentaje_list}
+      </ul>
+    </td>
+  </tr>
+</table>
+<!--table end -->
 
 
 <!--table start -->

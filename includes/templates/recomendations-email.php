@@ -3,6 +3,10 @@ function createRecomendationsEmail($values,$images) {
 
   $obj_principal_elegido = $values["objetivo"];
   $obj_secundario_elegido = $values["objetivo-secundario"];
+		$nombre = $values["nombre"];
+		$edad = $values["edad"];
+		$email = $values["email"];
+		$telefono = $values["telefono"];
 
 
   $all_obj_principales = get_plugin_options('cn_plugin_redirect');
@@ -31,7 +35,7 @@ function createRecomendationsEmail($values,$images) {
 
   $palette = [
     "bg-cream" => '#e1ccad',
-    "bg-purple" => '#764979'
+    "bg-purple" => '#8c6292'
 	];
 	
 $colors = [
@@ -130,11 +134,10 @@ $colors = [
 <table cellpadding='0' cellspacing='0' border='0' id='backgroundTable' style='background:#eee;'><tr><td>
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;border-radius:1rem; border-collapse: separate;border-spacing: 0;
-  overflow: hidden;'>
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;background:{$colors['bg-dark']};border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;'>
       <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:0%;border:none !important;line-height: 0%;' width='100%' border='0'>
-                  <img src='{$images['recomendaciones-banner']}' style='width:100%;' />
+            <td class='block' align='center' valign='center' style='padding:0;border:none !important;line-height: 0%;' width='100%' border='0'>
+                  <img src='{$images['recomendaciones-banner']}' style='width:60%;' />
             </td>
 
       </tr>
@@ -143,19 +146,31 @@ $colors = [
 <!--table end -->
 
 <!--table start -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;border:none;padding:5px;'>
+      <tr border='0' style='border:none !important;'>
+            <td class='block' align='center' valign='center' style='padding:5px 0px;border:none !important;' width='100%' border='0'>
+                  <p style='margin:0;font-size:1.4rem;padding:20px 10px;'><span class='font-size:1.6rem'><strong>{$nombre}</strong> ({$edad} años) | </span>
+                  {$email} | {$telefono}</p>
+            </td>
+      </tr>
+</table>
+<!--table end -->
+
+<!--table start -->
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
       <tr border='0' style='border:none !important'>
             <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
-                  <h3 style='font-size:1.4rem;'>{$obj_principal_elegido}</h3>
+                  <h3 style='font-size:1.2rem;'>{$obj_principal_elegido}</h3>
             </td>
 
       </tr>
       <tr border='0' style='background:white;'>
             <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
-                  
+                  <div style='font-size:1.2rem !important'>
                   {$obj_principal_recomendaciones}
+																		</div>
 
             </td>
 
@@ -176,8 +191,10 @@ $colors = [
       <tr border='0' style='background:white;'>
             <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
-                  
-                 <p>{$obj_secundario_recomendaciones}</p>
+                 
+																	<div style='font-size:1.2rem !important'>
+                 {$obj_secundario_recomendaciones}
+																	</div>
 
             </td>
 
