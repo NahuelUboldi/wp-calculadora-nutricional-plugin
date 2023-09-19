@@ -30,16 +30,8 @@ add_action('admin_enqueue_scripts', 'admin_style');
 function getImages() {
       return [
 		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
-		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
-		"men" => MY_PLUGIN_URL . "includes/templates/images/hombre.jpg",
-		"imc" => MY_PLUGIN_URL . "includes/templates/images/imc.jpg",
-		"calorias-men" => MY_PLUGIN_URL . "includes/templates/images/calorias-hombre.jpg",
-		"calorias-woman" => MY_PLUGIN_URL . "includes/templates/images/calorias-mujer.jpg",
-		"grasa-men" => MY_PLUGIN_URL . "includes/templates/images/grasa-hombre.jpg",
-		"grasa-woman" => MY_PLUGIN_URL . "includes/templates/images/grasa-mujer.jpg",
-		"proteinas-men" => MY_PLUGIN_URL . "includes/templates/images/proteinas-hombre.jpg",
-		"proteinas-woman" => MY_PLUGIN_URL . "includes/templates/images/proteinas-mujer.jpg",
 		"recomendaciones-banner" => MY_PLUGIN_URL . "includes/templates/images/recomendaciones-banner.jpg",
+		"fitness" => MY_PLUGIN_URL . "includes/templates/images/fitness.png",
 	];
 }
 
@@ -206,7 +198,6 @@ function display_submission() {
             "sexo" => $sexo,
             "asesor" => $asesor,
             "objetivo" => $objetivo,
-            // agregar objetivo secundario
             "objetivo-secundario" => $objetivo_secundario,
             "edad" => $edad,
             "estatura" => $altura,

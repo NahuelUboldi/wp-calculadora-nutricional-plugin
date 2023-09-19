@@ -29,21 +29,19 @@ $peso = $values["peso"] ?? "79";
 $imc = $values["imc"] ?? 42;
 $grasa_porcentaje = $values["%-grasa"] ?? 19;
 $grasa_kg = $values["kg-grasa"] ?? 8;
+$musculo_kg = $values["kg-musculo"] ?? 90;
+$proteina_diaria = $values["proteina-diaria"] ?? 90;
+$calorias = $values["calorias"] ?? 1353;
+$cintura = $cintura["cintura"] ?? 87;// "cintura" => $field_cintura,
+
 
 $rounded_borders = "border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;";
 
 $images = [
-		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
-		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
-		"men" => MY_PLUGIN_URL . "includes/templates/images/hombre.jpg",
-		"imc" => MY_PLUGIN_URL . "includes/templates/images/imc.jpg",
-		"calorias-men" => MY_PLUGIN_URL . "includes/templates/images/calorias-hombre.jpg",
-		"calorias-woman" => MY_PLUGIN_URL . "includes/templates/images/calorias-mujer.jpg",
-		"grasa-men" => MY_PLUGIN_URL . "includes/templates/images/grasa-hombre.jpg",
-		"grasa-woman" => MY_PLUGIN_URL . "includes/templates/images/grasa-mujer.jpg",
-		"proteinas-men" => MY_PLUGIN_URL . "includes/templates/images/proteinas-hombre.jpg",
-		"proteinas-woman" => MY_PLUGIN_URL . "includes/templates/images/proteinas-mujer.jpg",
+
+    "logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
 		"recomendaciones-banner" => MY_PLUGIN_URL . "includes/templates/images/recomendaciones-banner.jpg",
+		"fitness" => MY_PLUGIN_URL . "includes/templates/images/fitness.png",
 	];
 $palette = [
 	"cream" => '#e1ccad',
@@ -55,23 +53,22 @@ $palette = [
 	"orange" => '#f85b00',
 	"yellow" => '#fabf00',
 	"green" => '#82d55f',
-      "gray" => '#eee'
+  "gray" => '#eee'
 ];
 	
 $colors = [
 	"bg-light" => $palette["cream"],
 	"bg-dark" => $palette["purple"],
-      "mujer" => $palette["pink"],
-      "hombre" => $palette["light-blue"],
-      "red" => $palette["red"],
+  "mujer" => $palette["pink"],
+  "hombre" => $palette["light-blue"],
+  "red" => $palette["red"],
 	"orange" => $palette["orange"],
 	"yellow" => $palette["yellow"],
 	"green" => $palette["green"],
 	"gray" => $palette["gray"],
 ];
 
-
-function createList($array,$imc) {
+function createList($array,$imc,$text_color) {
       $result = "";
 
       foreach ($array as $key => $value) {
@@ -81,16 +78,17 @@ function createList($array,$imc) {
             $color = $value[3];
             if($imc >= $min && $imc <= $max) {
                   $result .= "
-                  <li style='color:white'>
-                        <span style='color:{$color};-webkit-text-stroke-width: 1.5px;-webkit-text-stroke-color: white;'>► ⬤ </span>
-                        <span style='color:white'>{$text} </span>
+                  <li style='font-size:1.5rem;'>
+                        <span style='font-size:1.5rem;color:{$color};-webkit-text-stroke-width: 1.5px;-webkit-text-stroke-color: white;'>► ⬤ </span>
+                        <span style='font-size:1.5rem;color:{$text_color}'>{$text} </span>
                   </li>";
             } else {
                   $result .= "
-                  <li style='color:white;opacity:0.5;'>
-                        <span style='visibility:hidden;'> ► </span>
-                        ⬤
-                        {$text}
+                  <li style='color:{$text_color};opacity:0.5;font-size:1.5rem;'>
+                        <span style='font-size:1.5rem;visibility:hidden;'> ► </span>
+                        <span style='font-size:1.5rem;'>
+                              ⬤ {$text}
+                        </span>
                   </li>";
             }
       }
@@ -103,7 +101,6 @@ function createColor($array,$imc) {
       foreach ($array as $key => $value) {
             $min = $value[0];
             $max = $value[1];
-            $text = $value[2];
             $color = $value[3];
             if($imc >= $min && $imc <= $max) {
                   $result = $color;
@@ -130,11 +127,18 @@ $grasa_porcentaje_values = [
       [26,INF, "ELEVADO",$colors["red"]],
 
 ];
+$cintura_values = [
+      [0,79.9, "NORMAL",$colors["green"]] ,
+      [80,86.9, "ALTO",$colors["orange"]],
+      [87,INF, "ELEVADO",$colors["red"]],
+];
 
-$imc_list = createList($imc_values,$imc);
+$imc_list = createList($imc_values,$imc,'white');
 $imc_color = createColor($imc_values,$imc);
-$grasa_porcentaje_list = createList($grasa_porcentaje_values,$grasa_porcentaje);
+$grasa_porcentaje_list = createList($grasa_porcentaje_values,$grasa_porcentaje,$colors['bg-dark']);
 $grasa_porcentaje_color = createColor($grasa_porcentaje_values,$grasa_porcentaje);
+$cintura_list = createList($cintura_values,$cintura,$colors['bg-dark']);
+$cintura_color = createColor($cintura_values,$cintura);
 
 echo "
 <br><br>";
@@ -145,35 +149,35 @@ echo "
 <!-- USER DATA TABLE -->
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;background:{$colors["bg-dark"]};color:white; margin:5px auto;{$rounded_borders}'>
       <tr style='border:none;'>
-            <td class='block' align='center' valign='center' style='padding:10px;font-weight:bold;font-size:1.5rem;border:none;'>
-                  Estudio Corporal Virtual
+            <td class='block' align='center' valign='center' style='padding:20px;font-weight:bold;font-size:1.5rem;border:none;'>
+                  <h1 class='font-size:32px;margin:0px;padding:0px;'><span style='color:white;'>Estudio Corporal Virtual</span></h1>
             </td>
       </tr>
       <tr>
-            <td class='block' align='left' valign='center' style='padding:0px 10%;' >
+            <td class='block' align='left' valign='center' style='padding:0px 20px;' >
 
                   <!--inner table start -->
                   <table border='0' align='center' role='presentation' style='width:100%;margin-bottom: 10px;border-collapse: separate;border-spacing: 15px;border:none;'>
                         <tr style='border:none;'>
-                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                              <td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
                                           Nombre: {$nombre}
                                     </p>
                               </td>
-                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                              <td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
                                           Fecha: {$fecha}
                                     </p>
                               </td>
                         </tr>
                         <tr style='border:none;'>
-                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                              <td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
                                           Edad: {$edad}
                                     </p>
                               </td>
-                              <td align='center' valign='center' style='background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-                                    <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+                              <td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
+                                    <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
                                           Estatura: {$estatura}
                                     </p>
                               </td>
@@ -196,17 +200,17 @@ echo "
     <td class='block' align='left' valign='center' style='padding:1%; border:none; ' width='20%'>
                       
       <!--inner table start -->
-      <table border='1' align='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
-        <tr style='border-bottom:solid 1px black;'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+      <table border='1' align='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border:none;border-bottom:solid 1px black;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               PESO
             </p>
           </td>
         </tr>
         <tr>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               {$peso} Kg.
             </p>
           </td>
@@ -215,17 +219,17 @@ echo "
       <!--inner table end -->
 
       <!--inner table start -->
-      <table border='1' align='center' valign='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
-        <tr style='border-bottom:solid 1px black;'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+      <table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border-bottom:solid 1px black;border:none;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               IMC
             </p>
           </td>
         </tr>
-        <tr style='background:{$imc_color}'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+        <tr style='border:none;background:{$imc_color}'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
               {$imc}
           </td>
         </tr>
@@ -234,7 +238,7 @@ echo "
 
     </td>
     <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-      <ul style='list-style:none;font-weight:bold;margin:0 20px'>
+      <ul style='list-style:none;font-weight:bold;margin:0 20px;line-height:2rem;'>
       {$imc_list}
       </ul>
     </td>
@@ -245,21 +249,21 @@ echo "
 <!--GRASA TABLE -->
 <!--table start -->
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;{$rounded_borders}background:{$colors['bg-light']}; margin:5px auto'>
-  <tr style='border:none;;'>
-    <td class='block' align='left' valign='center' style='padding:1%; border:none; ' width='20%'>
+  <tr style='border:none;'>
+    <td class='block' align='left' valign='center' style='padding:1%; border:none;' width='20%'>
                       
       <!--inner table start -->
-      <table border='1' align='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
-        <tr style='border-bottom:solid 1px black;'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+      <table border='1' align='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border:none;border-bottom:solid 1px black;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               KG GRASA
             </p>
           </td>
         </tr>
-        <tr>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+        <tr style='border:none;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               {$grasa_kg} Kg.
             </p>
           </td>
@@ -268,139 +272,116 @@ echo "
       <!--inner table end -->
 
       <!--inner table start -->
-      <table border='1' align='center' valign='center' role='presentation' style='width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
-        <tr style='border-bottom:solid 1px black;'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;'>
+      <table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border:none;border-bottom:solid 1px black;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
               GRASA
             </p>
           </td>
         </tr>
-        <tr style='background:{$grasa_porcentaje_color}'>
-          <td align='center' valign='center' >
-            <p style='font-weight:bold;font-size:1.2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+        <tr style='border:none;background:{$grasa_porcentaje_color}'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
               {$grasa_porcentaje}
           </td>
         </tr>
       </table>
       <!--inner table end -->
-
     </td>
-    <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-      <ul style='list-style:none;font-weight:bold;margin:0 20px'>
-      {$grasa_porcentaje_list}
+
+    <td class='block' align='left' valign='center' style='padding:1%;border:none !important;' width='40%'>
+      <ul style='list-style:none;font-weight:bold;margin:0 20px;line-height:2rem;'>
+        {$grasa_porcentaje_list}
       </ul>
+    </td>
+
+    <td class='block' align='center' valign='center' style='padding:30px;border:none !important;' width='40%'>
+
+      <!--inner table start -->
+      <table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border:none;border-bottom:solid 1px black;'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;padding:30px 20px;line-height:2rem;' height='100%'>
+              ¡ATENCIÓN!<br> El exceso de grasa es perjudicial para la salud
+            </p>
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
+
+
     </td>
   </tr>
 </table>
 <!--table end -->
 
 
+<!--MÚSCULOS TABLE -->
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
-      <tr style='background:{$colors["bg"]};'>
-            <td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
-                              
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          KG MÚSCULO
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:#fff;'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$values["kg-musculo"]}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;{$rounded_borders}background:{$colors['bg-light']}; margin:5px auto'>
+  <tr style='border:none;'>
+    <td class='block' align='left' valign='center' style='padding:1%;font-weight:bold;font-size:1.4rem;; border:none;' width='60%'>
+      <span style='display:block;line-height:2rem;background:white;color:{$colors['bg-dark']};{$rounded_borders}padding:10px;'>
+        En este momento tienes <span style='color:black'>{$musculo_kg}</span> kg. de músculo.
+      </span>
+      <span style='display:block;line-height:2rem;padding:10px;'>
+        Para mantener tu masa muscular te recomendamos consumir:
+      </span> 
+      <span style='display:block;line-height:2rem;background:white;color:{$colors['bg-dark']};{$rounded_borders}padding:10px;'>
+       <span style='color:black'> {$proteina_diaria}</span> gr. de proteína diaria
+      </span> 
+      <span style='display:block;line-height:2rem;padding:10px;'>
+        Tu gasto diario de calorias es: <span style='background:white;color:{$colors['bg-dark']};{$rounded_borders}padding:10px;'>{$calorias}</span>
+      </span>
+      
+    </td>
 
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          PROTEINA DIARIA
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:#fff;'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$values["proteina-diaria"]}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+    <td class='block' align='center' valign='center' style='padding:1%;border:none !important;' width='40%'>
+      <img src='{$images['fitness']}' style='max-width:98%;height:300px;' />
+    </td>
 
-
-
-
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-                  <img src='{$proteinasImg}' width='98%' />
-            </td>
-      </tr>
+    </tr>
 </table>
 <!--table end -->
 
+<!--CINTURA TABLE -->
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px black;background:white; margin:5px auto'>
-      <tr style='background:{$colors["bg"]};'>
-                  <td class='block' align='left' valign='center' style='padding:1%; ' width='20%'>
-                              
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          CALORÍAS
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:#fff;'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$values['calorias']}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;{$rounded_borders}background:{$colors['bg-light']}; margin:5px auto'>
+  <tr style='border:none;'>
+    <td class='block' align='left' valign='center' style='padding:1%; border:none;' width='20%'>
 
-                  <!--inner table start -->
-                  <table cellpadding='0' cellspacing='0' border='1' align='center' role='presentation' style='width:97%;      margin-bottom: 10px'>
-                        <tr style='border-bottom:solid 1px black;background:{$colors["primary"]};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          CINTURA
-                                    </p>
-                              </td>
-                        </tr>
-                        <tr style='background:{$colors['cintura']};'>
-                              <td align='center' valign='center' >
-                                    <p style='font-weight:bold;font-size:1.2rem'>
-                                          {$values["cintura"]}
-                                    </p>
-                              </td>
-                        </tr>
-                  </table>
-                  <!--inner table end -->
+      <!--inner table start -->
+      <table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
+        <tr style='border:none;border-bottom:solid 1px black;'>
+          <td align='center' valign='center' style='padding:10px;border:none;' >
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+              CINTURA
+            </p>
+          </td>
+        </tr>
+        <tr style='border:none;background:{$cintura_color}'>
+          <td align='center' valign='center' style='padding:10px;border:none;'>
+            <p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+              {$cintura}
+          </td>
+        </tr>
+      </table>
+      <!--inner table end -->
 
+    </td>
 
+    <td class='block' align='left' valign='center' style='padding:1%;border:none !important;' width='40%'>
+      <ul style='list-style:none;font-weight:bold;margin:0 20px;line-height:2rem;'>
+        {$cintura_list}
+      </ul>
+    </td>
 
+    <td class='block' align='center' valign='center' style='padding:1%;border:none !important;' width='40%'>
+      <img src='{$images['logo']}' style='max-width:98%;height:80px;' />
+    </td>
 
-            </td>
-            <td class='block' align='left' valign='center' style='padding:1%;' width='80%'>
-                  <img src='{$caloriasImg}' width='98%' />
-            </td>
-      </tr>
+  </tr>
 </table>
 <!--table end -->
 
