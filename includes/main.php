@@ -1,6 +1,7 @@
 <?php
 include "templates/admin-page.php";
 include "templates/email.php";
+include "templates/recomendations-email.php";
 
 if (!defined('ABSPATH')) {
       die('You cannot be here');
@@ -28,16 +29,9 @@ add_action('admin_enqueue_scripts', 'admin_style');
 
 function getImages() {
       return [
-		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.jpg",
-		"woman" => MY_PLUGIN_URL . "includes/templates/images/mujer.jpg",
-		"men" => MY_PLUGIN_URL . "includes/templates/images/hombre.jpg",
-		"imc" => MY_PLUGIN_URL . "includes/templates/images/imc.jpg",
-		"calorias-men" => MY_PLUGIN_URL . "includes/templates/images/calorias-hombre.jpg",
-		"calorias-woman" => MY_PLUGIN_URL . "includes/templates/images/calorias-mujer.jpg",
-		"grasa-men" => MY_PLUGIN_URL . "includes/templates/images/grasa-hombre.jpg",
-		"grasa-woman" => MY_PLUGIN_URL . "includes/templates/images/grasa-mujer.jpg",
-		"proteinas-men" => MY_PLUGIN_URL . "includes/templates/images/proteinas-hombre.jpg",
-		"proteinas-woman" => MY_PLUGIN_URL . "includes/templates/images/proteinas-mujer.jpg",
+		"logo" => MY_PLUGIN_URL . "includes/templates/images/logo.png",
+		"recomendaciones-banner" => MY_PLUGIN_URL . "includes/templates/images/recomendaciones-banner.jpg",
+		"fitness" => MY_PLUGIN_URL . "includes/templates/images/fitness.png",
 	];
 }
 
@@ -171,6 +165,9 @@ function display_submission() {
       $sexo = esc_html(get_post_meta(get_the_ID(), 'sexo', true));
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
       $objetivo = esc_html(get_post_meta(get_the_ID(), 'objetivo', true));
+
+      $objetivo_secundario = esc_html(get_post_meta(get_the_ID(), 'objetivo-secundario', true));
+
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
       $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
       $peso = esc_html(get_post_meta(get_the_ID(), 'peso', true));
@@ -186,11 +183,6 @@ function display_submission() {
       $kg_musculo = esc_html(get_post_meta(get_the_ID(), 'kg-musculo', true));
       $proteina_diaria = esc_html(get_post_meta(get_the_ID(), 'proteina-diaria', true));
 
-
-
-// metabolismo basal
-
-
 	$values = [
             "fecha" => get_the_date(),
             "nombre" => $name,
@@ -199,6 +191,7 @@ function display_submission() {
             "sexo" => $sexo,
             "asesor" => $asesor,
             "objetivo" => $objetivo,
+            "objetivo-secundario" => $objetivo_secundario,
             "edad" => $edad,
             "estatura" => $altura,
             "peso" => $peso,
@@ -266,7 +259,7 @@ function create_rest_endpoint() {
 
 
 function handle_enquiry($data) {
-          /////////////////
+      /////////////////
       // SATINIZATION OF DATA
       /////////////////
       
@@ -283,13 +276,17 @@ function handle_enquiry($data) {
       $field_asesor = sanitize_text_field($params['asesor']);
       $field_objetivo = sanitize_text_field($params['objetivo']);
 
+      // agregar objetivo secundario
+      $field_objetivo_secundario = sanitize_text_field($params['objetivo-secundario']);
+
+
       $field_sexo = sanitize_text_field($params['sexo']);
       $field_edad = intval(sanitize_text_field($params['edad']));
-      $field_altura = intval(sanitize_text_field($params['altura']));
-      $field_peso = intval(sanitize_text_field($params['peso']));
-      $field_cintura = intval(sanitize_text_field($params['cintura']));
-      $field_cuello = intval(sanitize_text_field($params['cuello']));
-      $field_cadera = intval(sanitize_text_field($params['cadera']));
+      $field_altura = floatval(sanitize_text_field($params['altura']));
+      $field_peso = floatval(sanitize_text_field($params['peso']));
+      $field_cintura = floatval(sanitize_text_field($params['cintura']));
+      $field_cuello = floatval(sanitize_text_field($params['cuello']));
+      $field_cadera = floatval(sanitize_text_field($params['cadera']));
       $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']);
 
       // Validations before calculations and pushing to db
@@ -401,6 +398,9 @@ function handle_enquiry($data) {
       add_post_meta($post_id, 'telefono', $field_telefono);
       add_post_meta($post_id, 'asesor', $field_asesor);
       add_post_meta($post_id, 'objetivo', $field_objetivo);
+      //agregar objetivo secundario
+      add_post_meta($post_id, 'objetivo-secundario', $field_objetivo_secundario);
+
       add_post_meta($post_id, 'sexo', $field_sexo);
       add_post_meta($post_id, 'edad', $field_edad);
       add_post_meta($post_id, 'altura', $field_altura);
@@ -446,8 +446,7 @@ function handle_enquiry($data) {
       $headers[] = "Reply-to: {$field_name} <{$field_email}>";
       $headers[] = "Content-Type: text/html";
 
-      $subject = "{$field_name} ha completado la Calculadora Nutricional";
-
+      
       $values = [
             "fecha" => current_time('d-m-Y'),
             "nombre" => $field_name,
@@ -456,6 +455,7 @@ function handle_enquiry($data) {
             "sexo" => $field_sexo,
             "asesor" => $field_asesor,
             "objetivo" => $field_objetivo,
+            "objetivo-secundario" => $field_objetivo_secundario,
             "edad" => $field_edad,
             "estatura" => $field_altura,
             "peso" => $field_peso,
@@ -472,12 +472,18 @@ function handle_enquiry($data) {
             "calorias" => $field_metab_basal,
 	];
       $images = getImages();
+      
+      // send email with report
+      $subject = "Scanner corporal completado por {$field_name} | Reporte";
       $message = createEmail($values,$images);
-
-
-      // send email
       wp_mail($recipient_email, $subject, $message, $headers);
 
+      
+      // send email with recomendations 
+      $recomendations_subject = "Recomendaciones para {$field_name} según los objetivos elegidos";
+      $recomendations_message = createRecomendationsEmail($values,$images);
+      wp_mail($recipient_email, $recomendations_subject, $recomendations_message, $headers);
+      
       
       if (get_plugin_options('cn_plugin_message')) {
 
