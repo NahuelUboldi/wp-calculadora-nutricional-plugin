@@ -166,9 +166,7 @@ function display_submission() {
       $asesor = esc_html(get_post_meta(get_the_ID(), 'asesor', true));
       $objetivo = esc_html(get_post_meta(get_the_ID(), 'objetivo', true));
 
-      // agregar objetivo secundario
       $objetivo_secundario = esc_html(get_post_meta(get_the_ID(), 'objetivo-secundario', true));
-
 
       $edad = esc_html(get_post_meta(get_the_ID(), 'edad', true));
       $altura = esc_html(get_post_meta(get_the_ID(), 'altura', true));
@@ -184,11 +182,6 @@ function display_submission() {
       $kg_grasa = esc_html(get_post_meta(get_the_ID(), 'kg-grasa', true));
       $kg_musculo = esc_html(get_post_meta(get_the_ID(), 'kg-musculo', true));
       $proteina_diaria = esc_html(get_post_meta(get_the_ID(), 'proteina-diaria', true));
-
-
-
-// metabolismo basal
-
 
 	$values = [
             "fecha" => get_the_date(),
@@ -289,11 +282,11 @@ function handle_enquiry($data) {
 
       $field_sexo = sanitize_text_field($params['sexo']);
       $field_edad = intval(sanitize_text_field($params['edad']));
-      $field_altura = intval(sanitize_text_field($params['altura']));
-      $field_peso = intval(sanitize_text_field($params['peso']));
-      $field_cintura = intval(sanitize_text_field($params['cintura']));
-      $field_cuello = intval(sanitize_text_field($params['cuello']));
-      $field_cadera = intval(sanitize_text_field($params['cadera']));
+      $field_altura = floatval(sanitize_text_field($params['altura']));
+      $field_peso = floatval(sanitize_text_field($params['peso']));
+      $field_cintura = floatval(sanitize_text_field($params['cintura']));
+      $field_cuello = floatval(sanitize_text_field($params['cuello']));
+      $field_cadera = floatval(sanitize_text_field($params['cadera']));
       $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']);
 
       // Validations before calculations and pushing to db

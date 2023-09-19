@@ -1,30 +1,6 @@
 <?php 
 function createEmail($values,$images) {
 
-/*
-$getType_nombre = gettype($values['nombre']);
-$getType_fecha = gettype($values['fecha']);
-$getType_edad = gettype($values['edad']);
-$getType_estatura = gettype($values['estatura']);
-$getType_sexo = gettype($values['sexo']);
-$getType_asesor = gettype($values['asesor']);
-$getType_objetivo = gettype($values['objetivo']);
-$getType_objetivo_secundario = gettype($values['objetivo-secundario']);
-$getType_peso = gettype($values['peso']);
-$getType_cintura = gettype($values['cintura']);
-$getType_cuello = gettype($values['cuello']);
-$getType_cadera = gettype($values['cadera']);
-$getType_actividad_fisica = gettype($values['actividad_fisica']);
-$getType_imc = gettype($values['imc']);
-$getType_metabolismo_basal = gettype($values['metab_basal']);
-$getType_grasa = gettype($values['%-grasa']);
-$getType_kg_grasa = gettype($values['kg-grasa']);
-$getType_kg_musculo = gettype($values['kg-musculo']);
-$getType_proteina_diaria = gettype($values['proteina-diaria']);
-$getType_calorias = gettype($values['calorias']);
-*/
-
-
 $nombre = $values['nombre'];
 $fecha = $values['fecha'];
 $edad = $values['edad'];
@@ -39,9 +15,7 @@ $proteina_diaria = $values["proteina-diaria"];
 $calorias = $values["calorias"];
 $cintura = $values["cintura"];
 
-
 $rounded_borders = "border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;";
-
 	
 $palette = [
 	"cream" => '#e1ccad',
@@ -232,29 +206,6 @@ $cintura_color = createColor($cintura_values,$cintura);
 	<table cellpadding='0' cellspacing='0' border='0' id='backgroundTable' style='background:#eee;'>
 		<tr>
 			<td>
-				<!--
-				<ul>
-					<li>nombre: {$values['nombre']}, tipo: {$getType_nombre}</li>
-					<li>fecha: {$values['fecha']}, tipo: {$getType_fecha}</li>
-					<li>edad: {$values['edad']}, tipo: {$getType_edad}</li>
-					<li>estatura: {$values['estatura']}, tipo: {$getType_estatura}</li>
-					<li>sexo: {$values['sexo']}, tipo: {$getType_sexo}</li>
-					<li>objetivo: {$values['objetivo']}, tipo: {$getType_objetivo}</li>
-					<li>objetivo secundario: {$values['objetivo-secundario']}, tipo: {$getType_objetivo_secundario}</li>
-					<li>peso: {$values['peso']}, tipo: {$getType_peso}</li>
-					<li>cintura: {$values['cintura']}, tipo: {$getType_cintura}</li>
-					<li>cuello: {$values['cuello']}, tipo: {$getType_cuello}</li>
-					<li>cadera: {$values['cadera']}, tipo: {$getType_cadera}</li>
-					<li>actividad fisica: {$values['actividad_fisica']}, tipo: {$getType_actividad_fisica}</li>
-					<li>imc: {$values['imc']}, tipo: {$getType_imc}</li>
-					<li>metabolismo basal: {$values['metab_basal']}, tipo: {$getType_metabolismo_basal}</li>
-					<li>% grasa: {$values['%-grasa']}, tipo: {$getType_grasa}</li>
-					<li>kg grasa: {$values['kg-grasa']}, tipo: {$getType_kg_grasa}</li>
-					<li>kg musculo: {$values['kg-musculo']}, tipo: {$getType_kg_musculo}</li>
-					<li>proteina diaria: {$values['proteina-diaria']}, tipo: {$getType_proteina_diaria}</li>
-					<li>calorias: {$values['calorias']}, tipo: {$getType_calorias}</li>
-				</ul>
-				-->
 
 				<!-- USER DATA TABLE -->
 				<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;background:{$colors["bg-dark"]};color:white; margin:5px auto;{$rounded_borders}'>
