@@ -15,7 +15,8 @@ function createRecomendationsEmail($values,$images) {
 
     if($value["objetivo"] == $obj_principal_elegido) {
 
-      $obj_principal_recomendaciones = $value['objetivo_recomendaciones'];
+      //$obj_principal_recomendaciones =  wpautop( $value['objetivo_recomendaciones'] );
+      $obj_principal_recomendaciones =  apply_filters( 'the_content', $value['objetivo_recomendaciones'] );
 
     }
 
@@ -27,7 +28,8 @@ function createRecomendationsEmail($values,$images) {
 
     if($value["objetivo_secundario"] == $obj_secundario_elegido) {
 
-      $obj_secundario_recomendaciones = $value['objetivo_secundario_recomendaciones'];
+      //$obj_secundario_recomendaciones = wpautop( $value['objetivo_secundario_recomendaciones'] );
+      $obj_secundario_recomendaciones = apply_filters( 'the_content', $value['objetivo_secundario_recomendaciones'] );
 
     }
 
@@ -86,6 +88,9 @@ $colors = [
 					}
 
 					
+		}
+		.recomendaciones p {
+			font-weight:normal !important;
 		}
 
 		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -149,7 +154,7 @@ $colors = [
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;border:none;padding:5px;'>
       <tr border='0' style='border:none !important;'>
             <td class='block' align='center' valign='center' style='padding:5px 0px;border:none !important;' width='100%' border='0'>
-                  <p style='margin:0;font-size:1.4rem;padding:20px 10px;'><span class='font-size:1.6rem'><strong>{$nombre}</strong> ({$edad} años) | </span>
+                  <p style='margin:0;font-size:1.4rem;font-weight:normal;line-height:2rem;padding:20px 10px;'><span class='font-size:1.6rem'><strong>{$nombre}</strong> ({$edad} años) | </span>
                   {$email} | {$telefono}</p>
             </td>
       </tr>
@@ -161,14 +166,14 @@ $colors = [
       <tr border='0' style='border:none !important'>
             <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
-                  <h3 style='font-size:1.2rem;'>{$obj_principal_elegido}</h3>
+                  <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_principal_elegido}</h3>
             </td>
 
       </tr>
       <tr border='0' style='background:white;'>
             <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
-                  <div style='font-size:1.2rem !important'>
+                  <p style='text-align:center;font-weight:bold; font-size:1.4rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
+                  <div class='recomendaciones' style='font-size:1.4rem !important;line-height:2rem;padding:10px;font-weight:normal;'>
                   {$obj_principal_recomendaciones}
 																		</div>
 
@@ -184,15 +189,15 @@ $colors = [
       <tr border='0' style='border:none !important'>
             <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Secundario: </p>
-                  <h3 style='font-size:1.4rem;'>{$obj_secundario_elegido}</h3>
+                  <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_secundario_elegido}</h3>
             </td>
 
       </tr>
       <tr border='0' style='background:white;'>
             <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
+                  <p style='text-align:center;font-weight:bold; font-size:1.4rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
                  
-																	<div style='font-size:1.2rem !important'>
+																	<div class='recomendaciones' style='font-size:1.4rem !important;line-height:2rem;padding:10px;font-weight:normal;'>
                  {$obj_secundario_recomendaciones}
 																	</div>
 

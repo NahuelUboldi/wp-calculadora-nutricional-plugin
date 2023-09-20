@@ -91,28 +91,28 @@
 
             <div class="input-group">
                   <label for="altura">Altura (en cm) <br> Ej: 170</label>
-                  <input id="altura" type="number" step="0.01" name="altura" min="50" max="230" required>
+                  <input id="altura" type="number" step="0.01" name="altura" min="50" max="230" lang="en" required>
             </div>
       
             <div class="input-group">
                   <label for="peso">Peso (en kg) <br>  Ej: 70</label>
-                  <input id="peso" type="number" step="0.01" name="peso" min="45" max="200" required>
+                  <input id="peso" type="number" step="0.01" name="peso" min="45" max="200" lang="en" required>
             </div>
 
            
             <div class="input-group">
                   <label for="cuello">Cuello (en cm) <br>  Ej: 34</label>
-                  <input id="cuello" type="number" step="0.01" name="cuello" min="20" max="50" required>
+                  <input id="cuello" type="number" step="0.01" name="cuello" min="20" max="50" lang="en" required>
             </div>
 
             <div class="input-group">
                   <label for="cintura">Cintura (en cm) <br>  Ej: 90</label>
-                  <input id="cintura" type="number" step="0.01" name="cintura" min="40" max="250" required>
+                  <input id="cintura" type="number" step="0.01" name="cintura" min="40" max="250" lang="en" required>
             </div>
 
             <div class="input-group">
                   <label for="cadera">Cadera (en cm) <br> Ej: 70</label>
-                  <input id="cadera" class="error" type="number" step="0.01" name="cadera" min="40" max="250" required>
+                  <input id="cadera" class="error" type="number" step="0.01" name="cadera" min="40" max="250" lang="en" required>
             </div>
       </div>
 
@@ -175,6 +175,7 @@ jQuery(document).ready(function($){
 
 
 </script>
+
 
 <?php else:?>
 

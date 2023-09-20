@@ -52,15 +52,15 @@ function createList($array,$imc,$text_color) {
 		$color = $value[3];
 		if($imc >= $min && $imc <= $max) {
 			$result .= "
-			<li style='font-size:1.5rem;'>
-				<span style='font-size:1.5rem;color:{$color};-webkit-text-stroke-width: 1.5px;-webkit-text-stroke-color: white;'>► ⬤ </span>
-				<span style='font-size:1.5rem;color:{$text_color}'>{$text} </span>
+			<li style='font-size:1.5rem;line-height:2rem;'>
+				<span style='font-size:1.5rem;line-height:2rem;color:{$color};-webkit-text-stroke-width: 1.5px;-webkit-text-stroke-color: white;'>► ⬤ </span>
+				<span style='font-size:1.5rem;line-height:2rem;color:{$text_color}'>{$text} </span>
 			</li>";
 		} else {
 			$result .= "
-			<li style='color:{$text_color};opacity:0.5;font-size:1.5rem;'>
-				<span style='font-size:1.5rem;visibility:hidden;opacity:0;'> ► </span>
-				<span style='font-size:1.5rem;'>
+			<li style='color:{$text_color};opacity:0.5;font-size:1.5rem;line-height:2rem;'>
+				<span style='font-size:1.5rem;line-height:2rem;visibility:hidden;opacity:0;'> ► </span>
+				<span style='font-size:1.5rem;line-height:2rem;'>
 					⬤ {$text}
 				</span>
 			</li>";
@@ -210,7 +210,7 @@ $cintura_color = createColor($cintura_values,$cintura);
 				<!-- USER DATA TABLE -->
 				<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;border:solid 1px white;background:{$colors["bg-dark"]};color:white; margin:5px auto;{$rounded_borders}'>
 					<tr style='border:none;'>
-						<td class='block' align='center' valign='center' style='padding:20px;font-weight:bold;font-size:1.5rem;border:none;'>
+						<td class='block' align='center' valign='center' style='padding:20px;font-weight:bold;font-size:1.5rem;line-height:2rem;border:none;'>
 							<h1 class='font-size:32px;margin:0px;padding:0px;'><span style='color:white;'>Estudio Corporal Virtual</span></h1>
 						</td>
 					</tr>
@@ -221,24 +221,24 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='0' align='center' role='presentation' style='width:100%;margin-bottom: 10px;border-collapse: separate;border-spacing: 15px;border:none;'>
 								<tr style='border:none;'>
 									<td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											Nombre: {$nombre}
 										</p>
 									</td>
 									<td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											Fecha: {$fecha}
 										</p>
 									</td>
 								</tr>
 								<tr style='border:none;'>
 									<td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											Edad: {$edad}
 										</p>
 									</td>
 									<td align='center' valign='center' style='padding:10px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											Estatura: {$estatura}
 										</p>
 									</td>
@@ -263,14 +263,14 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border:none;border-bottom:solid 1px black;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											PESO
 										</p>
 									</td>
 								</tr>
 								<tr>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											{$peso} Kg.
 										</p>
 									</td>
@@ -282,14 +282,14 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border-bottom:solid 1px black;border:none;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											IMC
 										</p>
 									</td>
 								</tr>
 								<tr style='border:none;background:{$imc_color}'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
 											{$imc}
 									</td>
 								</tr>
@@ -316,14 +316,14 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border:none;border-bottom:solid 1px black;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											KG GRASA
 										</p>
 									</td>
 								</tr>
 								<tr style='border:none;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											{$grasa_kg} Kg.
 										</p>
 									</td>
@@ -335,14 +335,14 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border:none;border-bottom:solid 1px black;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											GRASA
 										</p>
 									</td>
 								</tr>
 								<tr style='border:none;background:{$grasa_porcentaje_color}'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
 											{$grasa_porcentaje}
 									</td>
 								</tr>
@@ -362,7 +362,7 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border:none;border-bottom:solid 1px black;'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;padding:30px 20px;line-height:2rem;' height='100%'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;padding:30px 20px;line-height:2rem;' height='100%'>
 											¡ATENCIÓN!<br> El exceso de grasa es perjudicial para la salud
 										</p>
 									</td>
@@ -413,14 +413,14 @@ $cintura_color = createColor($cintura_values,$cintura);
 							<table border='1' align='center' valign='center' role='presentation' style='border:none;width:100%;margin-bottom: 10px;background:white;color:black; margin:5px auto;{$rounded_borders}'>
 								<tr style='border:none;border-bottom:solid 1px black;'>
 									<td align='center' valign='center' style='padding:10px;border:none;' >
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;'>
 											CINTURA
 										</p>
 									</td>
 								</tr>
 								<tr style='border:none;background:{$cintura_color}'>
 									<td align='center' valign='center' style='padding:10px;border:none;'>
-										<p style='font-weight:bold;font-size:1.5rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
+										<p style='font-weight:bold;font-size:1.5rem;line-height:2rem;margin:0;text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;'>
 											{$cintura}
 										</p>
 									</td>
