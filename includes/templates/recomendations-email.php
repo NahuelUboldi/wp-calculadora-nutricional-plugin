@@ -61,7 +61,7 @@ $colors = [
 		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
 		a img {border:none;}
 		.image_fix {display:block;}
-		p {margin: 0;padding:5px;font-weight:bold;}
+		p {margin: 0;padding:1%;font-weight:bold;}
 		h1, h2, h3, h4, h5, h6 {color: black !important;}
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
 		h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
@@ -120,7 +120,7 @@ $colors = [
 			/* Put CSS for high density (hdpi) Android layouts in here */
 		}
 				@media screen and (max-width:600px) {
-				.block { display: block !important; width: 100% !important; }
+				.block { display: block !important; width: 98% !important; }
 		}
 	</style>
 	<!--[if IEMobile 7]>
@@ -139,9 +139,9 @@ $colors = [
 <table cellpadding='0' cellspacing='0' border='0' id='backgroundTable' style='background:#eee;'><tr><td>
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;background:{$colors['bg-dark']};border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;'>
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:5px auto;background:{$colors['bg-dark']};border-radius:1rem; border-collapse: separate;border-spacing: 0;overflow: hidden;'>
       <tr border='0' style='border:none !important'>
-            <td class='block' align='center' valign='center' style='padding:0;border:none !important;line-height: 0%;' width='100%' border='0'>
+            <td class='block' align='center' valign='center' style='padding:0;border:none !important;line-height: 0%;' width='98%' border='0'>
                   <img src='{$images['recomendaciones-banner']}' style='width:60%;' />
             </td>
 
@@ -151,10 +151,10 @@ $colors = [
 <!--table end -->
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:5px auto;border:none;padding:5px;'>
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:5px auto;border:none;padding:1%;'>
       <tr border='0' style='border:none !important;'>
-            <td class='block' align='center' valign='center' style='padding:5px 0px;border:none !important;' width='100%' border='0'>
-                  <p style='margin:0;font-size:1.4rem;font-weight:normal;line-height:2rem;padding:20px 10px;'><span class='font-size:1.6rem'><strong>{$nombre}</strong> ({$edad} años) | </span>
+            <td class='block' align='center' valign='center' style='padding:1% 0px;border:none !important;' width='98%' border='0'>
+                  <p style='margin:0;font-size:1.4rem;font-weight:normal;line-height:2rem;padding:1% 10px;'><span class='font-size:1.6rem'><strong>{$nombre}</strong> ({$edad} años) | </span>
                   {$email} | {$telefono}</p>
             </td>
       </tr>
@@ -162,16 +162,16 @@ $colors = [
 <!--table end -->
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:10px auto;padding:1%;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
       <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
+            <td class='block' align='left' valign='center' style='padding:1%;border:none !important;line-height: 0%;text-align:center;' width='98%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
                   <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_principal_elegido}</h3>
             </td>
 
       </tr>
       <tr border='0' style='background:white;'>
-            <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
+            <td class='block' align='left' valign='center' style='padding:1%;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='98%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.4rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
                   <div class='recomendaciones' style='font-size:1.4rem !important;line-height:2rem;padding:10px;font-weight:normal;'>
                   {$obj_principal_recomendaciones}
@@ -185,19 +185,19 @@ $colors = [
 <!--table end -->
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
       <tr border='0' style='border:none !important'>
-            <td class='block' align='left' valign='center' style='padding:20px;border:none !important;line-height: 0%;text-align:center;' width='100%' border='0'>
+            <td class='block' align='left' valign='center' style='padding:1%;border:none !important;line-height: 0%;text-align:center;' width='98%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Secundario: </p>
                   <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_secundario_elegido}</h3>
             </td>
 
       </tr>
       <tr border='0' style='background:white;'>
-            <td class='block' align='left' valign='center' style='padding:10px;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='100%' border='0'>
+            <td class='block' align='left' valign='center' style='padding:1%;border:none !important;background:white; border-radius:1rem; border-collapse: separate; border-spacing: 0;overflow: hidden;' width='98%' border='0'>
                   <p style='text-align:center;font-weight:bold; font-size:1.4rem;color:{$colors['bg-dark']};'>Recomendaciones: </p>
                  
-																	<div class='recomendaciones' style='font-size:1.4rem !important;line-height:2rem;padding:10px;font-weight:normal;'>
+																	<div class='recomendaciones' style='font-size:1.4rem !important;line-height:2rem;padding:1%;font-weight:normal;'>
                  {$obj_secundario_recomendaciones}
 																	</div>
 
@@ -209,10 +209,10 @@ $colors = [
 <!--table end -->
 
 <!--table start -->
-<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:80%;background:{$colors['bg-dark']};margin:5px auto;border-radius:1rem; border-collapse: separate;border-spacing: 0;
+<table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;background:{$colors['bg-dark']};margin:5px auto;border-radius:1rem; border-collapse: separate;border-spacing: 0;
   overflow: hidden;'>
       <tr border='0' style='border:none !important'>
-            <td class='block' align='center' valign='center' style='padding:40px 20px;border:none !important;line-height: 0%;' width='100%' border='0'>
+            <td class='block' align='center' valign='center' style='padding:40px 20px;border:none !important;line-height: 0%;' width='98%' border='0'>
                   <img src='{$images['logo']}' style='height:50px' />
             </td>
 
