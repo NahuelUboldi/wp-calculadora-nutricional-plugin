@@ -68,8 +68,6 @@
                         <?php } ?>
                   </select>
             </div>
-      </div>
-      <div class="col-3">
             <div class="input-group">
                   <label for="sexo">Sexo</label>
                   <select id="sexo" name="sexo">
@@ -77,12 +75,12 @@
                         <option value="mujer">Mujer</option>
                   </select>
             </div>
-            <div class="input-group">
+            <div class="input-group" style="display:none;">
                   <label for="actividad-fisica">Actividad Física</label>
                   <select id="actividad-fisica" name="actividad-fisica">
                         <option value="sedentario">Sedentario</option>
                         <option value="moderado">Moderado</option>
-                        <option value="activo">Activo</option>
+                        <option value="activo" selected>Activo</option>
                   </select>
             </div>
       </div>

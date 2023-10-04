@@ -287,7 +287,7 @@ function handle_enquiry($data) {
       $field_cintura = floatval(sanitize_text_field($params['cintura']));
       $field_cuello = floatval(sanitize_text_field($params['cuello']));
       $field_cadera = floatval(sanitize_text_field($params['cadera']));
-      $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']);
+      $field_actividad_fisica = sanitize_text_field($params['actividad-fisica']) ?? "activo";
 
       // Validations before calculations and pushing to db
       if ($field_edad < 0 || $field_edad > 125) {
@@ -317,39 +317,39 @@ function handle_enquiry($data) {
       
       if ($field_sexo == 'hombre') {
             
-            $field_metab_basal = round(66.5+(13.8*$field_peso)+(5*$field_altura)-(6.8*$field_edad));
+            $field_metab_basal = round(66.5+(13.8*$field_peso)+(5*$field_altura)-(6.8*$field_edad),2);
             
             
-            $field_porcentaje_grasa = round(495 / (1.0324 - 0.19077 * log10($field_cintura - $field_cuello) + (0.15456 * log10($field_altura))) - 450);
+            $field_porcentaje_grasa = round(495 / (1.0324 - 0.19077 * log10($field_cintura - $field_cuello) + (0.15456 * log10($field_altura))) - 450 - 4,2);
 
       } else {
             
-            $field_metab_basal = round(655+(9.6*$field_peso)+(1.85*$field_altura)-(4.7*$field_edad));
+            $field_metab_basal = round(655+(9.6*$field_peso)+(1.85*$field_altura)-(4.7*$field_edad),2);
 
-            $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log10($field_cintura-$field_cuello+$field_cadera))+(0.221*log10($field_altura)))-450);
+            $field_porcentaje_grasa = round(495/(1.29579-(0.35004*log10($field_cintura-$field_cuello+$field_cadera))+(0.221*log10($field_altura)))-450 - 4,2);
             
       }
  
-      $field_kg_grasa = round($field_peso*$field_porcentaje_grasa/100);
+      $field_kg_grasa = round($field_peso*$field_porcentaje_grasa/100,2);
 
       if ($field_sexo == 'hombre') { 
-            $field_kg_musculo = round(($field_peso-$field_kg_grasa)-3.1);
+            $field_kg_musculo = round(($field_peso-$field_kg_grasa)-3.1,2);
       } else {
-            $field_kg_musculo = round(($field_peso-$field_kg_grasa)-2.5);
+            $field_kg_musculo = round(($field_peso-$field_kg_grasa)-2.5,2);
       }    
 
 
       if ($field_actividad_fisica == 'activo') { 
 
-            $field_proteina_diaria = $field_kg_musculo*2.2;
+            $field_proteina_diaria = round($field_kg_musculo*2.2,2);
 
       } elseif ($field_actividad_fisica == 'moderado') {
             
-            $field_proteina_diaria = $field_kg_musculo*1.8;
+            $field_proteina_diaria = round($field_kg_musculo*1.8,2);
 
       } else {
 
-            $field_proteina_diaria = $field_kg_musculo*1.2;
+            $field_proteina_diaria = round($field_kg_musculo*1.2,2);
 
       }
 

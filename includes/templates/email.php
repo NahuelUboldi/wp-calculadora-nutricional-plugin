@@ -86,27 +86,43 @@ function createColor($array,$imc) {
 }
 
 $imc_values = [
-	[0,9.9, "Menos de diez: DELGADEZ EXTREMA",$colors["orange"]],
-	[10,17.9, "10 a 17: BAJO PESO",$colors["yellow"]] ,
-	[18,24.9, "18 a 24: PESO ADECUADO PARA TU ESTATURA",$colors["green"]],
-	[25,29.9, "25 a 29: SOBREPESO",$colors["yellow"]],
-	[30,34.9, "30 a 35: OBESIDAD I",$colors["orange"]],
-	[35,40.9, "35 a 40: OBESIDAD II",$colors["orange"]],
-	[40,INF, "40 o más: OBESIDAD III",$colors["red"]]
+	[0,9.99, "<10: DELGADEZ EXTREMA",$colors["orange"]],
+	[10,17.99, "10 a 17: BAJO PESO",$colors["yellow"]] ,
+	[18,24.99, "18 a 24: PESO ADECUADO PARA TU ESTATURA",$colors["green"]],
+	[25,29.99, "25 a 29: SOBREPESO",$colors["yellow"]],
+	[30,34.99, "30 a 35: OBESIDAD I",$colors["orange"]],
+	[35,40.99, "35 a 40: OBESIDAD II",$colors["orange"]],
+	[41,INF, "40 o más: OBESIDAD III",$colors["red"]]
 ];
 
-$grasa_porcentaje_values = [
-      [0,9.9, "ÓPTIMO",$colors["yellow"]],
-      [10,19.9, "NORMAL",$colors["green"]] ,
-      [20,25.9, "ALTO",$colors["orange"]],
-      [26,INF, "ELEVADO",$colors["red"]],
+if ($sexo == "hombre") {
+	$grasa_porcentaje_values = [
+		[0,9.99, "ÓPTIMO",$colors["yellow"]],
+		[10,20.99, "NORMAL",$colors["green"]] ,
+		[21,25.99, "ALTO",$colors["yellow"]],
+		[26,INF, "ELEVADO",$colors["red"]],
+	];
 
-];
-$cintura_values = [
+	$cintura_values = [
+      [0,93.99, "NORMAL",$colors["green"]] ,
+      [94,101.99, "ALTO",$colors["yellow"]],
+      [102,INF, "ELEVADO",$colors["red"]],
+	];
+
+} else {
+	$grasa_porcentaje_values = [
+		[0,19.99, "ÓPTIMO",$colors["yellow"]],
+		[20,30.99, "NORMAL",$colors["green"]] ,
+		[31,40.99, "ALTO",$colors["yellow"]],
+		[41,INF, "ELEVADO",$colors["red"]],
+	];
+
+	$cintura_values = [
       [0,79.9, "NORMAL",$colors["green"]] ,
-      [80,86.9, "ALTO",$colors["orange"]],
+      [80,86.9, "ALTO",$colors["yellow"]],
       [87,INF, "ELEVADO",$colors["red"]],
-];
+	];
+}
 
 $imc_list = createList($imc_values,$imc,'white');
 $imc_color = createColor($imc_values,$imc);
