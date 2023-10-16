@@ -91,8 +91,8 @@ $imc_values = [
 	[18,24.99, "18 a 24: PESO ADECUADO PARA TU ESTATURA",$colors["green"]],
 	[25,29.99, "25 a 29: SOBREPESO",$colors["yellow"]],
 	[30,34.99, "30 a 35: OBESIDAD I",$colors["orange"]],
-	[35,40.99, "35 a 40: OBESIDAD II",$colors["orange"]],
-	[41,INF, "40 o más: OBESIDAD III",$colors["red"]]
+	[35,39.99, "35 a 40: OBESIDAD II",$colors["orange"]],
+	[40,INF, "40 o más: OBESIDAD III",$colors["red"]]
 ];
 
 if ($sexo == "hombre") {

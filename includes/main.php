@@ -3,6 +3,7 @@ include "templates/admin-page.php";
 include "templates/email.php";
 include "templates/recomendations-email.php";
 
+
 if (!defined('ABSPATH')) {
       die('You cannot be here');
 }
@@ -476,6 +477,8 @@ function handle_enquiry($data) {
       // send email with report
       $subject = "Scanner corporal completado por {$field_name} | Reporte";
       $message = createEmail($values,$images);
+
+
       wp_mail($recipient_email, $subject, $message, $headers);
 
       
