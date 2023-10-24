@@ -1,4 +1,7 @@
 <?php if( get_plugin_options('cn_plugin_active') ):?>
+<?php
+
+?>
 
 <div id="form-success"></div>
 <div id="form-error"></div>
@@ -156,12 +159,13 @@ jQuery(document).ready(function($){
                         
                         }
                   },
-                  error: function(){
+                  error: function(e){
 
-                        $("#form-error").html("Hubo un error al tratar de enviar el mensaje. Por favor, verifica que todos los campos han sido completados con la información correcta. Gracias.").addClass("form-alert").fadeIn();
+                        $("#form-error").html(`Hubo un error al tratar de enviar el mensaje. Por favor, verifica que todos los campos han sido completados con la información correcta. Gracias.${e}`).addClass("form-alert").fadeIn();
+                        console.log(e)
                         setTimeout(() => {
                               $("#form-error").fadeOut()
-                        }, 2500);
+                        }, 8500);
                   }
 
             })
@@ -180,3 +184,26 @@ jQuery(document).ready(function($){
 <p>La calculadora nutricional no está activa. Revisa la página de configuración.</p>
 
 <?php endif;?>
+
+
+
+
+
+<!-- 
+"<br />
+<b>Fatal error</b>:  Uncaught Error: Class &quot;Mpdf\Mpdf&quot; not found in /home/nahueluboldi/public_html/test/wp-content/plugins/wp-calculadora-nutricional-plugin/includes/main.php:485
+Stack trace:
+#0 /home/nahueluboldi/public_html/test/wp-includes/rest-api/class-wp-rest-server.php(1194): handle_enquiry(Object(WP_REST_Request))
+#1 /home/nahueluboldi/public_html/test/wp-includes/rest-api/class-wp-rest-server.php(1041): WP_REST_Server-&gt;respond_to_request(Object(WP_REST_Request), '/v1/contact-for...', Array, NULL)
+#2 /home/nahueluboldi/public_html/test/wp-includes/rest-api/class-wp-rest-server.php(431): WP_REST_Server-&gt;dispatch(Object(WP_REST_Request))
+#3 /home/nahueluboldi/public_html/test/wp-includes/rest-api.php(418): WP_REST_Server-&gt;serve_request('/v1/contact-for...')
+#4 /home/nahueluboldi/public_html/test/wp-includes/class-wp-hook.php(310): rest_api_loaded(Object(WP))
+#5 /home/nahueluboldi/public_html/test/wp-includes/class-wp-hook.php(334): WP_Hook-&gt;apply_filters('', Array)
+#6 /home/nahueluboldi/public_html/test/wp-includes/plugin.php(565): WP_Hook-&gt;do_action(Array)
+#7 /home/nahueluboldi/public_html/test/wp-includes/class-wp.php(398): do_action_ref_array('parse_request', Array)
+#8 /home/nahueluboldi/public_html/test/wp-includes/class-wp.php(779): WP-&gt;parse_request('')
+#9 /home/nahueluboldi/public_html/test/wp-includes/functions.php(1335): WP-&gt;main('')
+#10 /home/nahueluboldi/public_html/test/wp-blog-header.php(16): wp()
+#11 /home/nahueluboldi/public_html/test/index.php(17): require('/home/nahuelubo...')
+#12 {main} -->
+ 

@@ -17,35 +17,32 @@ if( !defined('ABSPATH') )
 if( !class_exists('CalculadoraNutricionalPlugin') )
 {
 
+      class CalculadoraNutricionalPlugin{
 
+            public function __construct()
+            {
+                  
+                  define('MY_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
 
-            class CalculadoraNutricionalPlugin{
+                  define('MY_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
-
-                  public function __construct()
-                  {
-
-                        define('MY_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
-
-                        define('MY_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-
-                        require_once(MY_PLUGIN_PATH . '/vendor/autoload.php');
-
-                  }
-
-                  public function initialize()
-                  {
-                        include_once MY_PLUGIN_PATH . 'includes/utilities.php';
-
-                        include_once MY_PLUGIN_PATH . 'includes/options-page.php';
-
-                        include_once MY_PLUGIN_PATH . 'includes/main.php';
-                  }
-
+                  require_once(MY_PLUGIN_PATH . '/vendor/autoload.php');
 
             }
 
-            $calculadoraNutricionalPlugin = new CalculadoraNutricionalPlugin;
-            $calculadoraNutricionalPlugin->initialize();
+            public function initialize()
+            {
+                  include_once MY_PLUGIN_PATH . 'includes/utilities.php';
+
+                  include_once MY_PLUGIN_PATH . 'includes/options-page.php';
+
+                  include_once MY_PLUGIN_PATH . 'includes/main.php';
+            }
+
+
+      }
+
+      $calculadoraNutricionalPlugin = new CalculadoraNutricionalPlugin;
+      $calculadoraNutricionalPlugin->initialize();
 
 }

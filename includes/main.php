@@ -4,6 +4,7 @@ include "templates/email.php";
 include "templates/recomendations-email.php";
 
 
+
 if (!defined('ABSPATH')) {
       die('You cannot be here');
 }
@@ -478,8 +479,26 @@ function handle_enquiry($data) {
       $subject = "Scanner corporal completado por {$field_name} | Reporte";
       $message = createEmail($values,$images);
 
+      require_once(MY_PLUGIN_PATH . 'vendor/autoload.php');
+/*
 
-      wp_mail($recipient_email, $subject, $message, $headers);
+      $html = "<h1>Hola</h1>";
+
+     // Configura la biblioteca MPDF
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->WriteHTML($html);
+
+    // Obtén el contenido del PDF en memoria
+    // Obtén el contenido del PDF en memoria
+    $pdfContent = $mpdf->Output('', \Mpdf\Output\Destination::STRING_RETURN);
+
+    // Adjuntar el PDF directamente desde la memoria
+    $attachments = array(
+        'filename.pdf' => $pdfContent,
+    );
+
+*/
+      wp_mail($recipient_email, $subject, $message, $headers, /* $attachments */);
 
       
       // send email with recomendations 
