@@ -3,11 +3,33 @@ include "templates/admin-page.php";
 include "templates/email.php";
 include "templates/recomendations-email.php";
 
-
-
 if (!defined('ABSPATH')) {
       die('You cannot be here');
 }
+
+// use Dompdf\Dompdf;
+// use Dompdf\Options;
+
+// // Create an instance of Dompdf
+// $options = new Options();
+// $options->set('isHtml5ParserEnabled', true);
+// $options->set('isPhpEnabled', true);
+
+// $dompdf = new Dompdf($options);
+
+// // Load HTML content
+// $html = '<h1>Hello, Dompdf!</h1>';
+
+// $dompdf->loadHtml($html);
+
+// // Set paper size (optional)
+// $dompdf->setPaper('A4', 'portrait');
+
+// // Render PDF (first pass to get total pages)
+// $dompdf->render();
+
+// // Stream the file to the browser
+// $dompdf->stream('document.pdf', array('Attachment' => 0));
 
 add_action('wp_enqueue_scripts', 'load_jquery');
 
@@ -479,26 +501,9 @@ function handle_enquiry($data) {
       $subject = "Scanner corporal completado por {$field_name} | Reporte";
       $message = createEmail($values,$images);
 
-      require_once(MY_PLUGIN_PATH . 'vendor/autoload.php');
-/*
 
-      $html = "<h1>Hola</h1>";
 
-     // Configura la biblioteca MPDF
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->WriteHTML($html);
-
-    // Obtén el contenido del PDF en memoria
-    // Obtén el contenido del PDF en memoria
-    $pdfContent = $mpdf->Output('', \Mpdf\Output\Destination::STRING_RETURN);
-
-    // Adjuntar el PDF directamente desde la memoria
-    $attachments = array(
-        'filename.pdf' => $pdfContent,
-    );
-
-*/
-      wp_mail($recipient_email, $subject, $message, $headers, /* $attachments */);
+      wp_mail($recipient_email, $subject, $message, $headers);
 
       
       // send email with recomendations 

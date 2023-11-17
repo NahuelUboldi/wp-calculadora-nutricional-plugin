@@ -240,12 +240,12 @@ $cintura_color = createColor($cintura_values,$cintura);
 								<tr style='border:none;'>
 									<td class='block' align='center' valign='center' style='width:50%;padding:1%;margin-bottom:4%;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
 										<p style='font-weight:bold;font-size:1.3rem;line-height:2rem;margin:0;'>
-											Nombre: {$nombre}
+											{$nombre}
 										</p>
 									</td>
 									<td class='block' align='center' valign='center' style='width:50%;padding:1%;margin:0px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
 										<p style='font-weight:bold;font-size:1.3rem;line-height:2rem;margin:0;'>
-											Fecha: {$fecha}
+											{$fecha}
 										</p>
 									</td>
 								</tr>
@@ -257,7 +257,7 @@ $cintura_color = createColor($cintura_values,$cintura);
 									</td>
 									<td class='block' align='center' valign='center' style='padding:1%;margin:0px;background:white;{$rounded_borders};color:{$colors['bg-dark']}'>
 										<p style='font-weight:bold;font-size:1.3rem;line-height:2rem;margin:0;'>
-											Estatura: {$estatura}
+											Estatura: {$estatura} cm
 										</p>
 									</td>
 								</tr>

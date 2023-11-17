@@ -165,7 +165,7 @@ $colors = [
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:10px auto;padding:1%;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
       <tr border='0' style='border:none !important'>
             <td class='block' align='left' valign='center' style='padding:1%;border:none !important;line-height: 0%;text-align:center;' width='98%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
+                  <p style='text-align:center;font-weight:bold; font-size:1.4rem; color:{$colors['bg-dark']};'>Objetivo Principal: </p>
                   <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_principal_elegido}</h3>
             </td>
 
@@ -188,7 +188,7 @@ $colors = [
 <table cellpadding='0' cellspacing='0' border='0' align='center' role='presentation' style='width:100%;margin:10px auto;padding:10px;border-radius:1rem;border:none !important; border-collapse: separate;border-spacing: 0;overflow: hidden;background:{$colors['bg-light']};'>
       <tr border='0' style='border:none !important'>
             <td class='block' align='left' valign='center' style='padding:1%;border:none !important;line-height: 0%;text-align:center;' width='98%' border='0'>
-                  <p style='text-align:center;font-weight:bold; font-size:1.2rem; color:{$colors['bg-dark']};'>Objetivo Secundario: </p>
+                  <p style='text-align:center;font-weight:bold; font-size:1.4rem; color:{$colors['bg-dark']};'>Objetivo Secundario: </p>
                   <h3 style='font-size:1.4rem;line-height:2rem;'>{$obj_secundario_elegido}</h3>
             </td>
 
@@ -224,3 +224,4 @@ $colors = [
 </td></tr></table>
 ";
 }
+
